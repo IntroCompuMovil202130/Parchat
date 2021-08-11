@@ -22,3 +22,12 @@ Soy Julián David Tarazona Torres, tengo 21 años y actualmente resido en la ciu
 
 
 <img src="https://github.com/FundIngSoft202110/PC-Drome/blob/main/Integrantes/Julian.jpeg" alt="Julian Tarazona_Imagen" width="560"/>
+
+# David Santiago Saavedra
+
+¿Quién soy? 
+Soy David. Soy estudiante de ingeniería de sistemas de octavo semestre en la Pontificia Universidad Javeriana. En este proyecto tendré el rol de FullStack en el equipo de desarrollo. Tengo conocimiento en múltiples lenguajes de programación y últimamente me he enfocado en el desarrollo web.
+Me gusta mucho socializar con las personas, me gusta ver películas y series en mi tiempo libre.
+Me gusta hacer deporte y soy amante de los animales, también a veces me gusta probar videojuegos.
+
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/fotos/unknown.png" alt="David Saavedra_Imagen" width="560"/>
