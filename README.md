@@ -16,7 +16,7 @@ Me gusta mucho el dibujo, tanto a mano como digital. Me gusta el arte japonés e
 
 # Fabian Andres Rojas Molina
 ## ¿Quién soy?
-Hola, soy Fabian Rojas,, tengo 19 años, vivo en Bogotá y estoy en séptimo semestre de Ingeniería de Sistema en la Pontificia Universidad Javeriana. Me gusta mucho la tecnología y programar; mis hobbies favoritos son hacer deporte, escuchar música y aprender a producirla.
+Hola, soy Fabian Rojas, tengo 20 años, vivo en Bogotá y estoy en octavo semestre de Ingeniería de Sistemas en la Pontificia Universidad Javeriana. Me gusta mucho la tecnología y programar; mis hobbies favoritos son hacer deporte, escuchar música y aprender a producirla. Tengo conocimiento en C++, java, javascript, SQL, Firebase, Angular y Phyton.
 
 <img src="https://github.com/FundIngSoft202110/PC-Drome/blob/main/Integrantes/Fabian.png" alt="Fabian Rojas_Imagen" width="560"/>
 
