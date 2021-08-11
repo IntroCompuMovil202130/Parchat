@@ -1,4 +1,8 @@
 # Parchat
+
+somos una red social enfocada en la creación de grupos grandes para salir a eventos y la comunicación directa entre personas que quieran ser amigos.
+
+buscamos que sea más fácil conocer gente en las ciudades. A veces quieres ir a un lugar y que maravilloso sería darle dinamismo al conocer nuevas personas, un 'parche' grande.
 # Edwin Fabian Vesga Escobar
 ## ¿Quién soy?
 Mi nombre es Edwin. Soy estudiantes de Ingeniería de sistemas de séptimo semestre en la Pontificia Universidad Javeriana.
