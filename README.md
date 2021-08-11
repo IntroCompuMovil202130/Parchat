@@ -15,3 +15,10 @@ Me gusta mucho el dibujo, tanto a mano como digital. Me gusta el arte japonés e
 Hola, soy Fabian Rojas,, tengo 19 años, vivo en Bogotá y estoy en séptimo semestre de Ingeniería de Sistema en la Pontificia Universidad Javeriana. Me gusta mucho la tecnología y programar; mis hobbies favoritos son hacer deporte, escuchar música y aprender a producirla.
 
 <img src="https://github.com/FundIngSoft202110/PC-Drome/blob/main/Integrantes/Fabian.png" alt="Fabian Rojas_Imagen" width="560"/>
+
+# Julián David Tarazona Torres
+## ¿Quién soy?
+Soy Julián David Tarazona Torres, tengo 21 años y actualmente resido en la ciudad de Bogotá. Estudio en la Pontificia Universidad Javeriana y estoy cursando el séptimo semestre de ingeniería de Sistemas. Me interesa trabajar en librerías de programación visual como OpenGL además de aprender sobre otro tipo de herramientas para la computación visual. He trabajado con lenguajes de programación como C/C++, Java, SQL, R además de una leve experiencia con Python y Blender.
+
+
+<img src="https://github.com/FundIngSoft202110/PC-Drome/blob/main/Integrantes/Julian.jpeg" alt="Julian Tarazona_Imagen" width="560"/>
