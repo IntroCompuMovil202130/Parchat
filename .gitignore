@@ -1,0 +1,15 @@
+/ParChat/*.iml
+/ParChat/.gradle
+/ParChat/local.properties
+/ParChat/.idea/caches
+/ParChat/.idea/libraries
+/ParChat/.idea/modules.xml
+/ParChat/.idea/workspace.xml
+/ParChat/.idea/navEditor.xml
+/ParChat/.idea/assetWizardSettings.xml
+/ParChat/.DS_Store
+/ParChat/build
+/ParChat/captures
+/ParChat/.externalNativeBuild
+/ParChat/.cxx
+/ParChat/local.properties
