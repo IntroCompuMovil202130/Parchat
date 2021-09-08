@@ -18,4 +18,9 @@ public class registrarse extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(),iniciarsesion.class);
         startActivity(intent);
     }
+
+    public void main(View v){
+        Intent intent = new Intent(v.getContext(),MainActivity.class);
+        startActivity(intent);
+    }
 }

@@ -110,6 +110,7 @@
             android:background="@drawable/dboton"
             android:fontFamily="@font/roboto_medium"
             android:text="Iniciar sesión"
+            android:onClick="main"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
