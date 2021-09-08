@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/purple_480"
+    tools:context=".Evento">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <EditText
+        android:id="@+id/lugar"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_gravity="fill"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_style"
+        android:hint="@string/lugar_evento"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:imeOptions="actionSearch"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/edittext_style"
+        android:ems="10"
+        android:paddingStart="10dp"
+        android:hint="@string/fecha_evento"
+        android:inputType="date"
+        tools:ignore="RtlSymmetry" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center|bottom"
+        android:background="@drawable/radius"
+        android:layout_marginBottom="30dp"
+        android:text="@string/publicar"/>
+
+</FrameLayout>

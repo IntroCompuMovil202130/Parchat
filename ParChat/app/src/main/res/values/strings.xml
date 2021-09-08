@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Parchat</string>
+    <string name="lugar_evento">Lugar</string>
+    <string name="fecha_evento">Fecha</string>
+    <string name="title_activity_evento">Evento</string>
+    <string name="publicar">Publicar</string>
     <string name="registrarse"><u>Crea una cuenta</u></string>
     <string name="olvcontraseña"><u>¿Olvidaste la contraseña?</u></string>
     <string name="iniciar"><u>Inicia sesión</u></string>
