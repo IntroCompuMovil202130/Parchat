@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">PARCHAT</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Buscar</string>
+    <string name="title_dashboard">Perfil</string>
+    <string name="title_notifications">Chat</string>
     <string name="registrarse"><u>Crea una cuenta</u></string>
     <string name="olvcontraseña"><u>¿Olvidaste tu contraseña?</u></string>
     <string name="iniciar"><u>Inicia sesión</u> </string>

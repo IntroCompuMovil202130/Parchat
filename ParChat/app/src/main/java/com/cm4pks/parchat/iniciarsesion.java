@@ -25,7 +25,7 @@ public class iniciarsesion extends AppCompatActivity {
     }
 
     public void main(View v){
-        Intent intent = new Intent(v.getContext(),MainActivity.class);
+        Intent intent = new Intent(v.getContext(),MainActivity2.class);
         startActivity(intent);
     }
 }

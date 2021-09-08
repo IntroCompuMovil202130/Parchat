@@ -13,6 +13,6 @@ public class chat extends AppCompatActivity {
         Bundle info = getIntent().getExtras();
         setContentView(R.layout.activity_chat);
         nombre = (TextView) findViewById(R.id.nameTitle);
-        nombre.setText(info.getString("nombre"));
+        nombre.setText("Edwin Vesga");
     }
 }

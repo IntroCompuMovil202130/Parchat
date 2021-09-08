@@ -21,7 +21,8 @@ public class amigos extends AppCompatActivity implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amigos);
         nombresAmigos =(ListView)findViewById(R.id.nombresAmigos);
-        names.add("Edwin Vesga");
+        String nombre = "Edwin Vesga";
+        names.add(nombre);
         adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
         nombresAmigos.setAdapter(adapter);
         nombresAmigos.setOnItemClickListener(this);
@@ -29,9 +30,10 @@ public class amigos extends AppCompatActivity implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        System.out.println(names.get(i));
         Intent intent = new Intent();
         intent.setClass(this, chat.class);
-        intent.putExtra("nombre",names.get(i).toString());
+        intent.putExtra("nombre",names.get(i));
         startActivity(intent);
     }
 }

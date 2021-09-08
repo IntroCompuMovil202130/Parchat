@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.home.HomeFragment"
+    android:background="#FCEBD9"
+    >
 
     <TextView
         android:id="@+id/text_home"
@@ -19,4 +21,97 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-36dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="370dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#FBFBFB"
+            android:ems="10"
+            android:hint="Buscar"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="689dp"
+            android:background="#FCEBD9"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="166dp"
+                tools:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <LinearLayout
+                android:layout_width="348dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center"
+                android:layout_margin="30dp"
+                android:background="#43878585"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:text="Nombre, Edad"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:text="Ciudad"
+                    android:textColor="#020202"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/unlike"
+                        android:layout_width="42dp"
+                        android:layout_height="58dp"
+                        android:layout_weight="1"
+                        android:text="X"
+                        app:cornerRadius="50dp" />
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="42dp"
+                        android:layout_height="58dp"
+                        android:layout_weight="1"
+                        android:text="♥️"
+                        app:cornerRadius="50dp" />
+
+                    <Button
+                        android:id="@+id/button4"
+                        android:layout_width="42dp"
+                        android:layout_height="58dp"
+                        android:layout_weight="1"
+                        android:text="msg"
+                        app:cornerRadius="50dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
