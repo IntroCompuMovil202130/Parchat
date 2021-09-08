@@ -11,6 +11,15 @@
         android:theme="@style/Theme.PARCHAT">
         <activity android:name=".perfil"></activity>
         <activity
+            android:name=".chat"
+            android:exported="true" />
+        <activity
+            android:name=".amigos"
+            android:exported="true" />
+        <activity
+            android:name=".buscarAmigos"
+            android:exported="true" />
+        <activity
             android:name=".recuperarClave"
             android:exported="true" />
         <activity
