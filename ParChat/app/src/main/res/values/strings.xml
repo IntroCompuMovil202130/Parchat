@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Parchat</string>
+    <string name="lugar_evento">Lugar</string>
+    <string name="fecha_evento">Fecha</string>
+    <string name="title_activity_evento">Evento</string>
+    <string name="publicar">Publicar</string>
 </resources>
