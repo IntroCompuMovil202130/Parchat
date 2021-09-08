@@ -7,7 +7,11 @@
         <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/drawable-v24/bordeslayout.xml" value="0.2203125" />
         <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/drawable-v24/dboton.xml" value="0.2203125" />
         <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/drawable-v24/radius.xml" value="0.2203125" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_iniciarsesion.xml" value="0.46726190476190477" />
+        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout-land/activity_iniciarsesion.xml" value="0.5" />
+        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout-land/activity_registrarse.xml" value="0.33" />
+        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_iniciarsesion.xml" value="0.22" />
+        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_recuperar_clave.xml" value="0.2" />
+        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_registrarse.xml" value="0.22" />
       </map>
     </option>
   </component>
