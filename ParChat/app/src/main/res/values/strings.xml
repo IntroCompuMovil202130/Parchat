@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">PARCHAT</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Parchat</string>
+    <string name="olvcontraseña"><u>¿Olvidaste tu contraseña?</u></string>
+    <string name="iniciar"><u>Inicia sesión</u> </string>
+    <string name="bienvenida">Bienvenido de nuevo</string>
+    <string name="correo">Correo</string>
+    <string name="contra">Contraseña</string>
+    <string name="iniciarSesion">Iniciar Sesión</string>
+    <string name="eresnuevo">¿Eres Nuevo?</string>
+    <string name="crearUCuenta"><u>Crear una Cuenta</u></string>
+    <string name="crearCuenta">Crear una Cuenta</string>
+    <string name="nombreUsuario">Nombre de Usuario</string>
+    <string name="registarse">Registrarse</string>
+    <string name="tienesCuenta">¿Ya tienes una cuenta?</string>
+    <string name="recuperarContra">Recuperar Contraseña</string>
+    <string name="correoRecuperacion">Ingrese su Correo electronico</string>
+    <string name="enviar">Enviar</string>
 </resources>

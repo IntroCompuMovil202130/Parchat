@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".Registrarse"
     android:background="#FCEBD9"
-    android:padding="15dp"
-    tools:context=".MainActivity">
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/textView"
@@ -19,7 +19,6 @@
         android:textSize="60sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -27,11 +26,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="420dp"
         android:layout_marginTop="70dp"
+        android:layout_marginBottom="104dp"
         android:background="@drawable/borderlayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:ignore="MissingConstraints">
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/bienvenida"
+            android:text="@string/crearCuenta"
             android:textColor="#000000"
             android:textSize="27sp"
             android:textStyle="bold"
@@ -59,7 +60,7 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/borderstyle"
             android:fontFamily="@font/roboto_medium"
-            android:hint="@string/correo"
+            android:hint="@string/nombreUsuario"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +73,25 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/borderstyle"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="@string/correo"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <EditText
+            android:id="@+id/contraseña"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/borderstyle"
             android:fontFamily="@font/roboto_medium"
@@ -83,23 +102,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/roboto_thin_italic"
-            android:onClick="recContrasena"
-            android:text="@string/olvcontraseña"
-            android:textColor="#000000"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
 
         <Button
             android:id="@+id/button2"
@@ -108,21 +112,20 @@
             android:layout_marginTop="50dp"
             android:background="@drawable/boton"
             android:fontFamily="@font/roboto_medium"
-            android:onClick="iniciarSesion"
-            android:text="@string/iniciarSesion"
+            android:onClick="registrarse"
+            android:text="@string/registarse"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/contraseña" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="294dp"
+        android:layout_height="19dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,20 +137,19 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/eresnuevo"
+            android:layout_marginStart="30dp"
+            android:text="@string/tienesCuenta"
             android:textColor="#000000" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:onClick="registrarse"
-            android:text="@string/crearUCuenta"
+            android:onClick="iniciarSesion"
+            android:text="@string/iniciar"
+            android:layout_marginStart="10dp"
             android:textColor="#000000" />
     </LinearLayout>
 
