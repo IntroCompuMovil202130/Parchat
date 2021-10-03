@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Parchat">
         <activity
+            android:name=".Chat"
+            android:exported="true" />
+        <activity
             android:name=".Perfil"
             android:exported="true" />
         <activity

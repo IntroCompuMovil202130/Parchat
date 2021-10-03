@@ -6,20 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class Perfil extends AppCompatActivity {
+public class Chat extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
+        setContentView(R.layout.activity_chat);
     }
 
     public void goToMatchs(View v){
         startActivity(new Intent(v.getContext(), Match.class));
     }
 
-    public void goToChats(View v){
-        startActivity(new Intent(v.getContext(), Chat.class));
+    public void goToProfile(View v){
+        startActivity(new Intent(v.getContext(), Perfil.class));
     }
-
 }
