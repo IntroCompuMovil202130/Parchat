@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "119271657055",
+    "firebase_url": "https://nodal-talon-325119-default-rtdb.firebaseio.com",
+    "project_id": "nodal-talon-325119",
+    "storage_bucket": "nodal-talon-325119.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119271657055:android:9d215fe7e3bfff6b0fd5ea",
+        "android_client_info": {
+          "package_name": "com.example.parchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2dzgAORJLgyP2VAZYIfgs_7saXcHmTts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

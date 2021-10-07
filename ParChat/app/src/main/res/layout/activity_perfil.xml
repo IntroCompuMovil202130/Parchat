@@ -83,5 +83,14 @@
             android:background="#FCBAC3"
             android:onClick="goToChats"
             app:srcCompat="@drawable/ic_baseline_chat_24" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FCBAC3"
+            android:onClick="goToCreateEvent"
+            app:srcCompat="@drawable/ic_baseline_event_24" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

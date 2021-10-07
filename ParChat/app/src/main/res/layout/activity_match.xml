@@ -52,13 +52,14 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/lanita" />
+                app:srcCompat="@drawable/mia_khalifa" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_gravity="bottom"
-                android:background="@drawable/borderlayout">
+                android:background="@drawable/borderlayout"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/nombreMatch"
@@ -163,5 +164,14 @@
             android:background="#FCBAC3"
             android:onClick="goToChats"
             app:srcCompat="@drawable/ic_baseline_chat_24" />
+
+        <ImageButton
+            android:id="@+id/imageButtonEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FCBAC3"
+            android:onClick="goToCreateEvent"
+            app:srcCompat="@drawable/ic_baseline_event_24" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

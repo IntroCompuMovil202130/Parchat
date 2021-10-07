@@ -21,5 +21,7 @@ public class Registrarse extends AppCompatActivity {
 
     public void registrarse(View v){
         //TODO Registrar Usuario Firebase Auth
+
+        startActivity(new Intent(v.getContext(), EditarPerfil.class));
     }
 }

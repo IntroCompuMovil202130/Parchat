@@ -10,19 +10,25 @@
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.2203125" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_event_24.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_loyalty_24.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_chat.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_crear_evento.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_editar_perfil.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_match.xml" value="0.22" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_navegacion.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_perfil.xml" value="0.25" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_recuperar_contrasena.xml" value="0.25" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_registrarse.xml" value="0.25" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/chat.xml" value="0.25" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2203125" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2203125" />
       </map>
     </option>
   </component>

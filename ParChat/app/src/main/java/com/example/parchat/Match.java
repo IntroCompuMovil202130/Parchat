@@ -19,6 +19,10 @@ public class Match extends AppCompatActivity {
     }
 
     public void goToChats(View v){
-        startActivity(new Intent(v.getContext(), Chat.class));
+        startActivity(new Intent(v.getContext(), Chats.class));
+    }
+
+    public void goToCreateEvent(View v){
+        startActivity(new Intent(v.getContext(), CrearEvento.class));
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chat"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/fotochat"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.2"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/mia_khalifa" />
+
+    <TextView
+        android:id="@+id/nombreChat"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.8"
+        android:textSize="20sp"
+        android:gravity="center_vertical"/>
+</LinearLayout>
