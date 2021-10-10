@@ -5,21 +5,22 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:background="#72FFFFFF">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/fotochat"
-        android:layout_width="0dp"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_weight="0.2"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        app:riv_oval="true"/>
 
     <TextView
         android:id="@+id/nombreChat"
         android:layout_width="0dp"
         android:textStyle="bold"
         android:layout_height="60dp"
-        android:layout_weight="0.8"
+        android:layout_weight="1"
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:layout_marginStart="10dp"/>

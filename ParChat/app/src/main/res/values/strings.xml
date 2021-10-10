@@ -23,4 +23,6 @@
     <string name="misEventos">Mis Eventos</string>
     <string name="redes">Redes sociales</string>
     <string name="mensaje">Mensaje</string>
+    <string name="confirmar_contra">Confirmar Contraseña</string>
+    <string name="volver"><u>Volver</u></string>
 </resources>
