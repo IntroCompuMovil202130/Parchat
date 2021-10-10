@@ -5,29 +5,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
-public class Chats extends AppCompatActivity {
+public class Chats extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ListView chats;
-    ArrayList<String> usuarios_chats;
     chatsAdapter adapter;
+    Servicios s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chats);
 
-        usuarios_chats = new ArrayList<>();
+        crearChats();
+    }
 
-        usuarios_chats.add("Mia Khalifa");
-
+    public void crearChats(){
+        s = new Servicios();
         chats = findViewById(R.id.chats);
-        adapter = new chatsAdapter(this, R.layout.chat, usuarios_chats);
+        chats.setOnItemClickListener(this);
+
+        //Obtener chats del usuario actual
+
+        adapter = new chatsAdapter(this, R.layout.chat, s.usuarios);
         chats.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent(this, Chat.class);
+        intent.putExtra("id", s.usuarios.get(i).getId() );
+        startActivity( intent );
     }
 
     public void goToMatchs(View v){

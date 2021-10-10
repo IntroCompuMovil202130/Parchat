@@ -17,4 +17,10 @@
     <string name="enviar">Enviar</string>
     <string name="chats">Chats</string>
     <string name="title_activity_crear_evento">CrearEvento</string>
+    <string name="descripcion">En esta sección el usuario debe colocar una breve descripción sobre el. Puede indicar sus gustos o pasatiempos.</string>
+    <string name="edad">Edad:</string>
+    <string name="ciudad">Ciudad:</string>
+    <string name="misEventos">Mis Eventos</string>
+    <string name="redes">Redes sociales</string>
+    <string name="mensaje">Mensaje</string>
 </resources>

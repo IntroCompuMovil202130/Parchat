@@ -15,13 +15,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registrarse(View v){
-        Intent intent = new Intent(v.getContext(),Registrarse.class);
-        startActivity(intent);
+        startActivity(new Intent(v.getContext(),Registrarse.class));
     }
 
     public void recContrasena(View v){
-        Intent intent = new Intent(v.getContext(),RecuperarContrasena.class);
-        startActivity(intent);
+        startActivity( new Intent(v.getContext(),RecuperarContrasena.class) );
     }
 
     public void iniciarSesion(View v){
