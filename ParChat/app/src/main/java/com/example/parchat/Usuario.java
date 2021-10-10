@@ -7,6 +7,7 @@ public class Usuario {
     private String nombre;
     private int foto;
     private ArrayList<Integer> chats;
+    //private ArrayList<Evento> enventos; TODO Aqui va la lista de eventos del usuario
 
     public Usuario(int id, String nombre, int foto, ArrayList<Integer> chats) {
         this.id = id;
