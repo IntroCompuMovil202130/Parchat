@@ -1,39 +1,48 @@
 package com.example.parchat;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class chatsAdapter extends ArrayAdapter {
+public class chatsAdapter extends ArrayAdapter<Usuario> {
 
-    Activity context;
-    TextView nombreView;
-    ArrayList<String> nombres;
+    Context context;
+    List<Usuario> usuarios;
+    int resourceLayout;
+    TextView nombreU;
+    ImageView fotoU;
+    Usuario u;
 
-    public chatsAdapter(@NonNull Activity context, int resource, ArrayList<String> nombres) {
-        super(context, resource);
+    public chatsAdapter(@NonNull Context context, int resource, List<Usuario> usuarios) {
+        super(context, resource, usuarios);
         this.context = context;
-        this.nombres = nombres;
+        this.usuarios = usuarios;
+        this.resourceLayout = resource;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflater = context.getLayoutInflater();
-        View item = inflater.inflate(R.layout.chat, null);
+        View view = convertView;
+        if( view == null ){
+            view = LayoutInflater.from(context).inflate(resourceLayout, null);
+        }
+        this.u = usuarios.get(position);
+        nombreU = view.findViewById(R.id.nombreChat);
+        nombreU.setText(u.getNombre());
 
-        nombreView = item.findViewById(R.id.nombreChat);
-        nombreView.setText(nombres.get(position));
+        fotoU = view.findViewById(R.id.fotochat);
+        fotoU.setImageResource(u.getFoto());
 
-        return item;
+        return view;
     }
 }

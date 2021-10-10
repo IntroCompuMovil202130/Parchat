@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/app_name"
         android:textColor="#000000"
@@ -26,8 +26,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:layout_marginTop="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:background="@drawable/borderlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -54,11 +54,13 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/borderstyle"
             android:fontFamily="@font/roboto_medium"
             android:hint="@string/nombreUsuario"
+            android:imeOptions="actionNext"
+            android:inputType="text"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/borderstyle"
             android:fontFamily="@font/roboto_medium"
@@ -89,11 +91,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/borderstyle"
             android:fontFamily="@font/roboto_medium"
             android:hint="@string/contra"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textSize="24sp"
@@ -102,12 +105,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
+        <EditText
+            android:id="@+id/contraseña_conf"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/borderstyle"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="@string/confirmar_contra"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contraseña" />
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:layout_width="210dp"
             android:layout_height="55dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/boton"
             android:fontFamily="@font/roboto_medium"
@@ -120,25 +140,25 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contraseña" />
+            app:layout_constraintTop_toBottomOf="@+id/contraseña_conf" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:layout_width="294dp"
-        android:layout_height="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:layout_marginStart="30dp"
+            android:textSize="18sp"
             android:text="@string/tienesCuenta"
             android:textColor="#000000" />
 
@@ -148,6 +168,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:onClick="iniciarSesion"
+            android:textSize="18sp"
             android:text="@string/iniciar"
             android:layout_marginStart="10dp"
             android:textColor="#000000" />

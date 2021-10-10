@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Perfil"
+    tools:context=".Chats"
     android:background="#FCEBD9">
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -34,18 +34,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" >
 
         <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Perfil" />
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="@string/chats" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/chats"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -64,6 +74,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#FCBAC3"
+            android:onClick="goToProfile"
             app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
         <ImageButton
@@ -81,11 +92,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#FCBAC3"
-            android:onClick="goToChats"
             app:srcCompat="@drawable/ic_baseline_chat_24" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/imageButtonEvent"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -93,4 +103,5 @@
             android:onClick="goToCreateEvent"
             app:srcCompat="@drawable/ic_baseline_event_24" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
