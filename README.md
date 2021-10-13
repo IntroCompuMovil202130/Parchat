@@ -47,4 +47,17 @@ Me gusta hacer deporte y soy amante de los animales, también a veces me gusta p
 
 ## Mockups
 
-<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Iniciar%20Sesion.PNG" alt="Diagrama de casos de uso" width="300" height="300"/>
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Iniciar%20Sesion.PNG" alt="iniciar sesion" width="400" height="400"/>
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Registrarse.PNG" alt="registro" width="400" height="400"/>
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Perfil.PNG" alt="perfil" width="400" height="400"/>
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Match.PNG" alt="match" width="400" height="400"/>
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Evento.PNG" alt="eventos" width="400" height="400"/>
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Chat.PNG" alt="chat" width="400" height="400"/>
+
+# Cambios en el diseño de la aplicación
+## Diagrama de casos de uso
+
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Diagrama%20de%20Casos%20de%20Uso%20Inicial.png" alt="Diagrama de casos de uso" width="560"/>
+
+## Diagrama de clases
+
