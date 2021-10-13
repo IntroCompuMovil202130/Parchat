@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCEBD9"
     android:paddingRight="5dp"
     android:paddingLeft="5dp"
-    tools:context=".CrearEvento">
+    tools:context=".opcionesEvento">
 
-    <EditText
+    <TextView
         android:id="@+id/barraBuscar"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -21,8 +19,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/borderstyle"
         android:hint="@string/lugar"
-        android:imeOptions="actionSend"
-        android:inputType="text"
+        android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/nEvento"
@@ -30,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/nEvento"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -39,30 +36,29 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/borderstyle"
         android:hint="@string/nombreEvento"
-        android:inputType="text"
         android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barraBuscar" />
 
-    <EditText
+    <TextView
         android:id="@+id/fecha"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:paddingLeft="10dp"
         android:background="@drawable/borderstyle"
+        android:hint="@string/fecha"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nEvento"
-        android:hint="@string/fecha"/>
+        app:layout_constraintTop_toBottomOf="@+id/nEvento" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -70,8 +66,9 @@
         android:layout_height="400dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="35dp"
+
         android:background="@drawable/borderlayout"
-        app:layout_constraintBottom_toTopOf="@+id/conf"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fecha">
@@ -90,42 +87,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
-
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp" />
 
-            <ImageButton
-                android:id="@+id/imageButton9"
-                android:layout_width="45dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="330dp"
-                android:background="@color/white"
-                android:onClick="irMiUbicacion"
-                android:src="@drawable/ic_baseline_gps_fixed_24"
-                app:backgroundTint="@null" />
+
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/conf"
-        android:layout_width="200dp"
-        android:layout_height="55dp"
-        android:layout_gravity="start"
-        android:layout_marginBottom="3dp"
+        android:id="@+id/imageButton11"
+        android:layout_width="113dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/borderstyle"
+        android:fontFamily="@font/roboto_medium"
+        android:onClick="editarEvento"
+        android:text="Editar"
+        android:textColor="@color/black"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/imageButton12"
+        android:layout_width="113dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/boton"
         android:fontFamily="@font/roboto_medium"
-        android:text="@string/publicar"
+        android:onClick="eliminarEvento"
+        android:text="Eliminar"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
         app:backgroundTint="@null"
-        android:onClick="publicar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

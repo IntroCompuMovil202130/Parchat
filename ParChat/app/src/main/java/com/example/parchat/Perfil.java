@@ -34,6 +34,7 @@ public class Perfil extends AppCompatActivity {
     TextView nombre, desc, edad, ciudad;
     RoundedImageView imagen;
 
+    private ArrayList<Evento> allEventos;
     private FirebaseAuth mAuth;
     private FirebaseDatabase db;
     private DatabaseReference myRef;
@@ -46,6 +47,10 @@ public class Perfil extends AppCompatActivity {
         inflarVariables();
         eventos = new ArrayList<>();
         adaptador = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,eventos);
+        listaEventos = findViewById(R.id.listaEventos);
+        allEventos = new ArrayList<Evento>();
+        eventos = new ArrayList();
+        adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,eventos);
         listaEventos.setAdapter(adaptador);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
@@ -81,16 +86,22 @@ public class Perfil extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
+        eventos.clear();
+        adaptador.notifyDataSetChanged();
+
         cargarEventos();
 
         listaEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                listaEventos.getItemAtPosition(i).toString();
+                Evento eventoS = allEventos.get(i);
+                Intent intent = new Intent(view.getContext(),opcionesEvento.class);
+                intent.putExtra("eventoM", eventoS.toString());
+                startActivity(intent);
             }
         });
     }
@@ -113,12 +124,13 @@ public class Perfil extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                allEventos.clear();
                 for(DataSnapshot singleShot: dataSnapshot.getChildren()){
-
                     Evento evento = singleShot.getValue(Evento.class);
                     evento.setId(singleShot.getKey());
                     eventos.add(evento.getNombreEvento() + " " + evento.getLugar() + " " + evento.getFecha());
                     adaptador.notifyDataSetChanged();
+                    allEventos.add(evento);
                 }
             }
 

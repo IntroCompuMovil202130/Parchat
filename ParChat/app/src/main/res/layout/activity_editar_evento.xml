@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCEBD9"
     android:paddingRight="5dp"
     android:paddingLeft="5dp"
-    tools:context=".CrearEvento">
+    tools:context=".editarEvento">
 
     <EditText
         android:id="@+id/barraBuscar"
@@ -90,25 +88,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
-
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp" />
 
-            <ImageButton
-                android:id="@+id/imageButton9"
-                android:layout_width="45dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="330dp"
-                android:background="@color/white"
-                android:onClick="irMiUbicacion"
-                android:src="@drawable/ic_baseline_gps_fixed_24"
-                app:backgroundTint="@null" />
+
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <Button
         android:id="@+id/conf"
@@ -118,14 +107,15 @@
         android:layout_marginBottom="3dp"
         android:background="@drawable/boton"
         android:fontFamily="@font/roboto_medium"
-        android:text="@string/publicar"
+        android:onClick="guardar"
+        android:text="@string/confirmar"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:backgroundTint="@null"
-        android:onClick="publicar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

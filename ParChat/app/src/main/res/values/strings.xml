@@ -41,4 +41,5 @@
     <string name="galeria">Galeria</string>
     <string name="camara">Camara</string>
     <string name="aceptar">Aceptar</string>
+    <string name="confirmar">Guardar</string>
 </resources>

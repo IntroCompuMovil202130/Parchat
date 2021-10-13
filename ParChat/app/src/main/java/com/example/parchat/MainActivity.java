@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void iniciarSesion(View v){
-       
+
         String emails = email.getText().toString();
         String pass = password.getText().toString();
 
