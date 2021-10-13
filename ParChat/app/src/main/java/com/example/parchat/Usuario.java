@@ -1,6 +1,7 @@
 package com.example.parchat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario {
     private String id;
@@ -13,8 +14,8 @@ public class Usuario {
     private String instagram;
     private String tiktok;
     private String twitter;
-    private ArrayList<String> chats;
-    private ArrayList<Evento> eventos;
+    private List<String> chats;
+    private List<Evento> eventos;
 
     public Usuario(){}
 
@@ -126,7 +127,7 @@ public class Usuario {
         eventos.add(nEvento);
     }
 
-    public ArrayList<String> getChats() {
+    public List<String> getChats() {
         return chats;
     }
 
@@ -134,7 +135,7 @@ public class Usuario {
         this.chats = chats;
     }
 
-    public ArrayList<Evento> getEventos() {
+    public List<Evento> getEventos() {
         return eventos;
     }
 

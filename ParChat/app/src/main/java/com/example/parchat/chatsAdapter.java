@@ -41,7 +41,8 @@ public class ChatsAdapter extends ArrayAdapter<Usuario> {
         nombreU.setText(u.getNombre());
 
         fotoU = view.findViewById(R.id.fotochat);
-        //fotoU.setImageResource();
+        int fotousu = Integer.parseInt(u.getFoto());
+        fotoU.setImageResource(fotousu);
 
         return view;
     }
