@@ -14,15 +14,19 @@
     <string name="tienesCuenta">¿Ya tienes una cuenta?</string>
     <string name="recuperarContra">Recuperar Contraseña</string>
     <string name="correoRecuperacion">Ingrese su Correo electronico</string>
-    <string name="enviar">Enviar</string>
-    <string name="chats">Chats</string>
-    <string name="title_activity_crear_evento">CrearEvento</string>
     <string name="descripcion">En esta sección el usuario debe colocar una breve descripción sobre el. Puede indicar sus gustos o pasatiempos.</string>
+    <string name="enviar">Enviar</string>
     <string name="edad">Edad:</string>
     <string name="ciudad">Ciudad:</string>
-    <string name="misEventos">Mis Eventos</string>
+    <string name="valorEdadyCiudad">#</string>
     <string name="redes">Redes sociales</string>
+    <string name="chats">Chats</string>
+    <string name="title_activity_crear_evento">CrearEvento</string>
     <string name="mensaje">Mensaje</string>
-    <string name="confirmar_contra">Confirmar Contraseña</string>
+    <string name="lugar">Lugar</string>
+    <string name="nombreEvento">Nombre del evento</string>
+    <string name="publicar">Publicar</string>
+    <string name="fecha">Fecha del evento DD/MM/AA</string>
     <string name="volver"><u>Volver</u></string>
+    <string name="confirmar_contra">Confirmar Contraseña</string>
 </resources>

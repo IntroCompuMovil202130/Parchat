@@ -85,9 +85,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="80dp"
+        android:layout_height="490dp"
         android:background="@drawable/borderlayout"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +94,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
 
@@ -116,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Nombre de Usuario"
+                android:text="@string/nombreUsuario"
                 android:textColor="#000000"
                 android:textSize="34sp"
                 android:textStyle="bold"
@@ -141,11 +139,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="32dp"
                 android:text="@string/edad"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView14"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -154,14 +154,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="100dp"
                 android:text="@string/ciudad"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -169,7 +168,9 @@
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="232dp"
                 android:text="@string/redes"
                 android:textColor="@color/black"
                 android:textSize="24sp"
@@ -178,55 +179,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11"
                 tools:ignore="MissingConstraints" />
-
-            <LinearLayout
-                android:id="@+id/linearLayoutRedes"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView14">
-
-                <ImageButton
-                    android:id="@+id/boton_ig"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="#00FCEBD9"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/insta" />
-
-                <ImageButton
-                    android:id="@+id/boton_fb"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="#00FCEBD9"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/fb" />
-
-                <ImageButton
-                    android:id="@+id/boton_tk"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="#00FCEBD9"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/tiktok" />
-
-                <ImageButton
-                    android:id="@+id/boton_tw"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="#00FCEBD9"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/twitter" />
-
-            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/imageButton7"
@@ -258,14 +210,55 @@
                 app:srcCompat="?attr/actionModeCloseDrawable"
                 tools:ignore="MissingConstraints" />
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="27dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
+                app:srcCompat="@drawable/insta" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="27dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
+                app:srcCompat="@drawable/fb" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="27dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
+                app:srcCompat="@drawable/tiktok" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="27dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
+                app:srcCompat="@drawable/twitter" />
+
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="#"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="33dp"
+                android:text="@string/valorEdadyCiudad"
                 android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView14"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -273,10 +266,11 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="#"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="34dp"
+                android:text="@string/valorEdadyCiudad"
                 android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView14"
                 app:layout_constraintStart_toEndOf="@+id/textView11"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -286,25 +280,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/misEventos"
+                android:text="Mis eventos"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutRedes" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-            <ListView
-                android:id="@+id/listaEventos"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15"
-                android:nestedScrollingEnabled="true"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView15">
+
+                <ListView
+                    android:id="@+id/listaEventos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
