@@ -35,3 +35,16 @@ Me gusta mucho socializar con las personas, me gusta ver películas y series en 
 Me gusta hacer deporte y soy amante de los animales, también a veces me gusta probar videojuegos.
 
 <img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/fotos/unknown.png" alt="David Saavedra_Imagen" width="560"/>
+
+# Diseño inicial de la aplicación
+## Diagrama de casos de uso
+
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Diagrama%20de%20Casos%20de%20Uso%20Inicial.png" alt="Diagrama de casos de uso" width="560"/>
+
+## Diagrama de clases
+
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Diagrama%20de%20Clases%20Inicial.png" alt="Diagrama de casos de uso" width="560"/>
+
+## Mockups
+
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Prototipos/Iniciar%20Sesion.PNG" alt="Diagrama de casos de uso" width="300" height="300"/>
