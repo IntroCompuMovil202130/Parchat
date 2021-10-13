@@ -29,4 +29,5 @@
     <string name="fecha">Fecha del evento DD/MM/AA</string>
     <string name="volver"><u>Volver</u></string>
     <string name="confirmar_contra">Confirmar Contraseña</string>
+    <string name="confirmar">Guardar</string>
 </resources>

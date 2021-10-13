@@ -58,4 +58,19 @@ public class Evento {
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+
+    @Override
+    public String toString() {
+        return id +"__"+ nombreEvento +"__"+lugar+"__"+fecha+"__"+latitud+"__"+longitud;
+    }
+
+    public void convertirString(String eventoString){
+        String partes[] = eventoString.split("__");
+        this.id = partes[0];
+        this.nombreEvento = partes[1];
+        this.lugar = partes[2];
+        this.fecha = partes[3];
+        this.latitud = Double.valueOf(partes[4]);
+        this.longitud = Double.valueOf(partes[5]);
+    }
 }

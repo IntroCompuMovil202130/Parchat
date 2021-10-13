@@ -1,9 +1,13 @@
 package com.example.parchat;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import android.Manifest;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -12,26 +16,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,7 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.parchat.databinding.ActivityCrearEventoBinding;
+import com.example.parchat.databinding.ActivityOpcionesEventoBinding;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -74,31 +64,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class CrearEvento extends FragmentActivity implements OnMapReadyCallback {
+public class opcionesEvento extends FragmentActivity implements OnMapReadyCallback {
+
     //permisos y ids
     private static final String permisosMapa = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final int SOLICITUD_GPS = 1;
     public static final int MAPAID = 2;
 
     //cuadros de texto
-    private EditText busqueda;
-    private EditText nombreEvento;
-    private EditText fecha;
-    private Button publicar;
-
-    //fecha
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-
+    private TextView busqueda;
+    private TextView nombreEvento;
+    private TextView fecha;
+    private Evento ev;
     //mapa y localizacion
     private GoogleMap mMap;
-    private ActivityCrearEventoBinding binding;
+    private @NonNull ActivityOpcionesEventoBinding binding;
     private Marker miUbicacion;
     private Marker busquedaMarker;
     private double latitud;
@@ -112,13 +97,9 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    //busqueda de localizaciones
-    private Geocoder mgeocoder;
-
-    //publicar
     FirebaseAuth mAuth;
     DatabaseReference myRef;
-    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,21 +110,17 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         latitud = 0;
         longitud = 0;
 
-        binding = ActivityCrearEventoBinding.inflate(getLayoutInflater());
+        binding = ActivityOpcionesEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mAuth = FirebaseAuth.getInstance();
-        myRef = FirebaseDatabase.getInstance().getReference();
-
         busqueda = findViewById(R.id.barraBuscar);
         nombreEvento = findViewById(R.id.nEvento);
-        publicar = findViewById(R.id.conf);
         fecha = findViewById(R.id.fecha);
-
+        ev = new Evento();
         revisarGPS();
         solicitarPermisos(this, permisosMapa, "acceso a su GPS");
 
@@ -162,53 +139,17 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = crearListener();
 
-        mgeocoder = new Geocoder(getBaseContext());
-        progressDialog = new ProgressDialog(this);
+        mAuth = FirebaseAuth.getInstance();
+        myRef = FirebaseDatabase.getInstance().getReference();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         iniciarActLocalizacion();
-        findViewById(R.id.fecha).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mostrarDatePicker();
-            }
-        });
         sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
-
-        //responder a las consultas de los lugares
-        busqueda.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_SEND){
-                    String direccion = busqueda.getText().toString();
-                    if(!direccion.isEmpty()){
-                        try {
-                            List<Address> direcciones = mgeocoder.getFromLocationName(direccion,5);
-                            if(direcciones != null && !direcciones.isEmpty()){
-                                Address resultado = direcciones.get(0);
-                                LatLng posicion = new LatLng(resultado.getLatitude(),resultado.getLongitude());
-                                if(mMap != null){
-                                    if(busquedaMarker != null){
-                                        busquedaMarker.remove();
-                                    }
-                                    busquedaMarker = mMap.addMarker(new MarkerOptions()
-                                            .position(posicion).title(direccion)
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
-                                    mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-                                }
-                            }else{Toast.makeText(CrearEvento.this, "Direccion no encontrada",Toast.LENGTH_SHORT).show();}
-                        } catch (IOException e) {e.printStackTrace();}
-                    }
-                    else{Toast.makeText(CrearEvento.this, "No hay dirección",Toast.LENGTH_SHORT).show();}
-                }
-                pedirJSON();
-                return false;
-            }
-        });
+        cargarDatos();
     }
 
     @Override
@@ -232,10 +173,6 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
-    }
-
-    //------mostrar la ubicacion del usuario al presionar el boton--------
-    public void irMiUbicacion(View v){
         if(latitud != 0 && longitud != 0){
             if(miUbicacion != null){
                 miUbicacion.remove();
@@ -245,7 +182,32 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
             mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         }
+        LatLng posicion = new LatLng(ev.getLatitud(),ev.getLongitud());
+        busquedaMarker = mMap.addMarker(new MarkerOptions()
+                .position(posicion).title(ev.getLugar())
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         pedirJSON();
+    }
+    public void editarEvento(View v){
+        Intent intent = new Intent(v.getContext(),editarEvento.class);
+        intent.putExtra("eventoM", ev.toString());
+        startActivity(intent);
+        finish();
+    }
+
+    public void eliminarEvento(View v){
+        String usuarioKey = mAuth.getCurrentUser().getUid();
+        myRef.child("Users").child(usuarioKey).child("eventos").child(ev.getId()).removeValue();
+        finish();
+    }
+
+   //---------cargar los datos del evento-------------------
+    private void cargarDatos(){
+
+        ev.convertirString(getIntent().getStringExtra("eventoM"));
+        busqueda.setText(ev.getLugar());
+        nombreEvento.setText(ev.getNombreEvento());
+        fecha.setText(ev.getFecha());
     }
 
     private LocationRequest createLocationRequest() {
@@ -253,90 +215,6 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
                 .setInterval(10000)
                 .setFastestInterval(5000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-    //-------------------fechas------------------------------------------------
-
-    private void mostrarDatePicker(){
-        Calendar calendar = Calendar.getInstance();
-        int anio = calendar.get(Calendar.YEAR);
-        int mes = calendar.get(Calendar.MONTH);
-        int dia = calendar.get(Calendar.DAY_OF_MONTH);
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int anio, int mes, int dia) {
-                mes = mes + 1;
-                String fechaSeleccionada = dia + "/" + mes + "/" + anio;
-                Log.i("fechaEvento", "onDateSet: " + fechaSeleccionada);
-                fecha.setText(fechaSeleccionada);
-            }
-        };
-        DatePickerDialog dialog = new DatePickerDialog(this, mDateSetListener,anio,mes,dia);
-        dialog.show();
-    }
-    private boolean verificarFecha(String fecha){
-        boolean resultado = false;
-        Date fechaactual = new Date(System.currentTimeMillis());
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaEventoDate = null;  //String a date
-        try {
-            fechaEventoDate = date.parse(fecha);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.i("confFechas", "verificarFecha: "+ fechaactual);
-        Log.i("confFechas", "verificarFecha: "+ fechaEventoDate);
-
-        if(fechaEventoDate.after(fechaactual)){
-            resultado = true;
-        }
-        return resultado;
-    }
-    //-------------------Publicar----------------------------------------------
-
-    public void publicar(View v){
-        boolean buscar = false, nombre = false, fechac = false, lugar = false;
-        if(TextUtils.isEmpty(busqueda.getText().toString())){
-            busqueda.setError("Indique el lugar del evento");
-        }
-        else{buscar = true;}
-        if(TextUtils.isEmpty(nombreEvento.getText().toString())){
-            nombreEvento.setError("Indique el nombre del evento");
-        }
-        else{nombre = true;}
-        if(TextUtils.isEmpty(fecha.getText().toString())){
-            fecha.setError("Indique la fecha del evento");
-        }
-        else{fechac = true;}
-        if(busquedaMarker == null){
-            Toast.makeText(CrearEvento.this, "No se ha indicado el lugar del evento", Toast.LENGTH_SHORT).show();
-        }
-        else{lugar = true;}
-        if(verificarFecha(fecha.getText().toString())){
-            if(buscar && nombre && fechac && lugar){
-                Evento nEvento = new Evento();
-                nEvento.setNombreEvento(nombreEvento.getText().toString());
-                nEvento.setLugar(busqueda.getText().toString());
-                nEvento.setFecha(fecha.getText().toString());
-                nEvento.setLatitud(busquedaMarker.getPosition().latitude);
-                nEvento.setLongitud(busquedaMarker.getPosition().longitude);
-
-                progressDialog.setMessage("Publicando evento...");
-                progressDialog.show();
-
-                String usuarioKey = mAuth.getCurrentUser().getUid();
-                myRef.child("Users").child(usuarioKey).child("eventos").child(myRef.push().getKey()).setValue(nEvento);
-                Toast.makeText(CrearEvento.this, "Evento publicado", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-            else{
-                Toast.makeText(CrearEvento.this, "indique los datos del evento", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else{
-            fecha.setError("Indique una fecha posterior a la actual");
-        }
-
     }
 
     //-------------------acceder a la ubicacion--------------------------------
@@ -356,6 +234,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         if (requestCode == MAPAID){
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
+            iniciarActLocalizacion();
         }
     }
 
@@ -379,7 +258,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
                     case CommonStatusCodes.RESOLUTION_REQUIRED:
                         try {
                             ResolvableApiException resolvable = (ResolvableApiException) e;
-                            resolvable.startResolutionForResult(CrearEvento.this,SOLICITUD_GPS);
+                            resolvable.startResolutionForResult(opcionesEvento.this,SOLICITUD_GPS);
                         } catch (IntentSender.SendIntentException sendIntentException) {
 
                         }break;
@@ -419,10 +298,10 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if(mMap != null){
                     if(sensorEvent.values[0] < 10){
-                        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(CrearEvento.this,R.raw.modo_oscuro));
+                        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(opcionesEvento.this,R.raw.modo_oscuro));
                     }
                     else{
-                        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(CrearEvento.this,R.raw.modo_claro));
+                        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(opcionesEvento.this,R.raw.modo_claro));
                     }
                 }
             }
@@ -493,4 +372,5 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
             e.printStackTrace();
         }
     }
+
 }
