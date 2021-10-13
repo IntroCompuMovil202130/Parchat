@@ -71,21 +71,17 @@ public class Registrarse extends AppCompatActivity {
             Toast.makeText(Registrarse.this,"Debe ingresar un nombre",Toast.LENGTH_SHORT).show();
             return;
 
-        }
-        if(TextUtils.isEmpty(email)){
+        }else if(TextUtils.isEmpty(email)){
             Toast.makeText(Registrarse.this,"Debe ingresar un email",Toast.LENGTH_SHORT).show();
             return;
 
-        }
-        if(TextUtils.isEmpty(password)){
+        }else if(TextUtils.isEmpty(password)){
             Toast.makeText(Registrarse.this,"Debe ingresar una contraseña",Toast.LENGTH_SHORT).show();
             return;
 
-        }
-        if(TextUtils.isEmpty(conPass)){
+        }else if(TextUtils.isEmpty(conPass)){
             Toast.makeText(Registrarse.this,"Debe confirmar su contraseña",Toast.LENGTH_SHORT).show();
             return;
-
         }
 
         if(password.length()>=6){
@@ -125,26 +121,9 @@ public class Registrarse extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-
-                    Map<String,Object> map = new HashMap<>();
-                    map.put("name",name);
-                    map.put("email",email);
-                    map.put("password",password);
-
-                    String id = mAuth.getCurrentUser().getUid();
-                    mDataBase.child("Users").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull  Task<Void> task2) {
-                            if(task2.isSuccessful()){
-                                startActivity(new Intent(Registrarse.this, Perfil.class));
-                                finish();
-                            }else{
-                                Toast.makeText(Registrarse.this,"No se pudieron crear los datos correctamente",Toast.LENGTH_SHORT).show();
-
-                            }
-                            progressDialog.dismiss();
-                        }
-                    });
+                    Intent intent = new Intent(Registrarse.this, EditarPerfil.class);
+                    intent.putExtra("nombre", name);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(Registrarse.this,"No se pudo registrar este usuario",Toast.LENGTH_SHORT).show();
                 }

@@ -19,7 +19,7 @@
     <string name="edad">Edad:</string>
     <string name="ciudad">Ciudad:</string>
     <string name="valorEdadyCiudad">#</string>
-    <string name="redes">Redes sociales</string>
+    <string name="redes">Redes Sociales</string>
     <string name="chats">Chats</string>
     <string name="title_activity_crear_evento">CrearEvento</string>
     <string name="mensaje">Mensaje</string>
@@ -29,4 +29,16 @@
     <string name="fecha">Fecha del evento DD/MM/AA</string>
     <string name="volver"><u>Volver</u></string>
     <string name="confirmar_contra">Confirmar Contraseña</string>
+    <string name="mis_eventos">Mis Eventos</string>
+    <string name="cambiar_foto"><u>Cambiar foto</u></string>
+    <string name="describete">Describete,pasatiempos, gustos musicales, etc.</string>
+    <string name="facebook">Facebook:</string>
+    <string name="instagram">Instagram:</string>
+    <string name="tiktok">TikTok:</string>
+    <string name="twitter">Twitter:</string>
+    <string name="link">Link</string>
+    <string name="guardar">Guardar</string>
+    <string name="galeria">Galeria</string>
+    <string name="camara">Camara</string>
+    <string name="aceptar">Aceptar</string>
 </resources>

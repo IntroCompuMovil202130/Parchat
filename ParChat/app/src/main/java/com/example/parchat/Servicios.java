@@ -9,8 +9,17 @@ public class Servicios {
 
     public Servicios(){
         this.usuarios = new ArrayList<>();
-        this.usuarios.add( new Usuario("1", "Julian Tarazona", "", new ArrayList<String>()) );
-        this.usuarios.add( new Usuario("2", "Fabian Rojas", "", new ArrayList<String>()) );
+        Usuario u1 = new Usuario();
+        u1.setFoto(String.valueOf(R.drawable.user1));
+        u1.setNombre("Fabian Rojas");
+        u1.setId("1");
+        this.usuarios.add(u1);
+
+        Usuario u2 = new Usuario();
+        u2.setFoto(String.valueOf(R.drawable.user2));
+        u2.setNombre("Julian Trazona");
+        u2.setId("2");
+        this.usuarios.add( u2 );
     }
 
     public Usuario buscarUsuario(String id){

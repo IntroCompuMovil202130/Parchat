@@ -2,10 +2,13 @@ package com.example.parchat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ public class Chat extends AppCompatActivity {
     private MensajeAdapter chatAdapter;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +43,9 @@ public class Chat extends AppCompatActivity {
         chatAdapter = new MensajeAdapter(
                 mensajesChats, usuario.getId()
         );
+    }
+
+    public void enviarImagen(View v){
+        startActivity(new Intent(this, Camara.class));
     }
 }
