@@ -3,24 +3,24 @@ package com.example.parchat;
 import java.util.ArrayList;
 
 public class Usuario {
-    private int id;
+    private String id;
     private String nombre;
-    private int foto;
-    private ArrayList<Integer> chats;
+    private String foto;
+    private ArrayList<String> chats;
     //private ArrayList<Evento> enventos; TODO Aqui va la lista de eventos del usuario
 
-    public Usuario(int id, String nombre, int foto, ArrayList<Integer> chats) {
+    public Usuario(String id, String nombre, String foto, ArrayList<String> chats) {
         this.id = id;
         this.nombre = nombre;
         this.foto = foto;
         this.chats = chats;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String  id) {
         this.id = id;
     }
 
@@ -32,15 +32,15 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public int getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(int foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 
-    public void crearChat(int id){
+    public void crearChat(String id){
         this.chats.add(id);
     }
 }

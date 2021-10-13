@@ -9,13 +9,13 @@ public class Servicios {
 
     public Servicios(){
         this.usuarios = new ArrayList<>();
-        this.usuarios.add( new Usuario(1, "Mia Khalifa", R.drawable.mia_khalifa, new ArrayList<Integer>()) );
-        this.usuarios.add( new Usuario(2, "Lana Rhoades", R.drawable.lanita, new ArrayList<Integer>()) );
+        this.usuarios.add( new Usuario("1", "Julian Tarazona", "", new ArrayList<String>()) );
+        this.usuarios.add( new Usuario("2", "Fabian Rojas", "", new ArrayList<String>()) );
     }
 
-    public Usuario buscarUsuario(int id){
+    public Usuario buscarUsuario(String id){
         for( Usuario u: this.usuarios ){
-            if( u.getId() == id )
+            if(u.getId().equals(id))
                 return u;
         }return null;
     }

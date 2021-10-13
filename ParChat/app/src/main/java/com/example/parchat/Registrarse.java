@@ -15,8 +15,7 @@ public class Registrarse extends AppCompatActivity {
     }
 
     public void iniciarSesion(View v){
-        Intent intent = new Intent(v.getContext(),MainActivity.class);
-        startActivity(intent);
+        onBackPressed();
     }
 
     public void registrarse(View v){

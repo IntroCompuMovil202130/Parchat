@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class chatsAdapter extends ArrayAdapter<Usuario> {
+public class ChatsAdapter extends ArrayAdapter<Usuario> {
 
     Context context;
     List<Usuario> usuarios;
@@ -22,7 +22,7 @@ public class chatsAdapter extends ArrayAdapter<Usuario> {
     ImageView fotoU;
     Usuario u;
 
-    public chatsAdapter(@NonNull Context context, int resource, List<Usuario> usuarios) {
+    public ChatsAdapter(@NonNull Context context, int resource, List<Usuario> usuarios) {
         super(context, resource, usuarios);
         this.context = context;
         this.usuarios = usuarios;
@@ -41,7 +41,7 @@ public class chatsAdapter extends ArrayAdapter<Usuario> {
         nombreU.setText(u.getNombre());
 
         fotoU = view.findViewById(R.id.fotochat);
-        fotoU.setImageResource(u.getFoto());
+        //fotoU.setImageResource();
 
         return view;
     }

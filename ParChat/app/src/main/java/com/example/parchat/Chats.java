@@ -11,7 +11,7 @@ import android.widget.ListView;
 public class Chats extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ListView chats;
-    chatsAdapter adapter;
+    ChatsAdapter adapter;
     Servicios s;
 
     @Override
@@ -29,7 +29,7 @@ public class Chats extends AppCompatActivity implements AdapterView.OnItemClickL
 
         //Obtener chats del usuario actual
 
-        adapter = new chatsAdapter(this, R.layout.chat, s.usuarios);
+        adapter = new ChatsAdapter(this, R.layout.chat, s.usuarios);
         chats.setAdapter(adapter);
     }
 
