@@ -9,8 +9,8 @@ public class Servicios {
 
     public Servicios(){
         this.usuarios = new ArrayList<>();
-        this.usuarios.add( new Usuario(1, "Mia Khalifa", R.drawable.mia_khalifa, new ArrayList<Integer>()) );
-        this.usuarios.add( new Usuario(2, "Lana Rhoades", R.drawable.lanita, new ArrayList<Integer>()) );
+        //this.usuarios.add( new Usuario(1, "Mia Khalifa", R.drawable.mia_khalifa, new ArrayList<Integer>()) );
+        //this.usuarios.add( new Usuario(2, "Lana Rhoades", R.drawable.lanita, new ArrayList<Integer>()) );
     }
 
     public Usuario buscarUsuario(int id){

@@ -1,18 +1,22 @@
 package com.example.parchat;
 
 public class Evento {
+    private String id;
     private String nombreEvento;
     private String lugar;
     private String fecha;
     private double latitud;
     private double longitud;
 
-    public Evento(String nombreEvento, String lugar, String fecha, double latitud, double longitud) {
-        this.nombreEvento = nombreEvento;
-        this.lugar = lugar;
-        this.fecha = fecha;
-        this.latitud = latitud;
-        this.longitud = longitud;
+    public Evento() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombreEvento() {

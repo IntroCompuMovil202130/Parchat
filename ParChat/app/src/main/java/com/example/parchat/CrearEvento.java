@@ -1,14 +1,9 @@
 package com.example.parchat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -21,6 +16,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,12 +27,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.parchat.databinding.ActivityCrearEventoBinding;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -58,11 +61,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.parchat.databinding.ActivityCrearEventoBinding;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
@@ -70,12 +75,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CrearEvento extends FragmentActivity implements OnMapReadyCallback {
     //permisos y ids
-    private String permisosMapa = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String permisosMapa = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final int SOLICITUD_GPS = 1;
     public static final int MAPAID = 2;
 
@@ -107,6 +115,11 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     //busqueda de localizaciones
     private Geocoder mgeocoder;
 
+    //publicar
+    FirebaseAuth mAuth;
+    DatabaseReference myRef;
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,32 +136,26 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mAuth = FirebaseAuth.getInstance();
+        myRef = FirebaseDatabase.getInstance().getReference();
+
         busqueda = findViewById(R.id.barraBuscar);
         nombreEvento = findViewById(R.id.nEvento);
         publicar = findViewById(R.id.publicar);
         fecha = findViewById(R.id.fecha);
-        findViewById(R.id.fecha).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("fechas", "onClick: aparezco cuando hacen click");
-                mostrarDatePicker();
-            }
-        });
 
         revisarGPS();
-        solicitarPermisos(this, permisosMapa, "acceso a su GPS", MAPAID);
+        solicitarPermisos(this, permisosMapa, "acceso a su GPS");
 
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
-                if(locationResult.getLastLocation() == null){
-                    return;
-                }
-                else{
+                if(locationResult.getLastLocation() != null){
                     Location locacion = locationResult.getLastLocation();
                     latitud = locacion.getLatitude();
                     longitud = locacion.getLongitude();
                 }
+
             }
         };
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -156,12 +163,20 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         lightSensorListener = crearListener();
 
         mgeocoder = new Geocoder(getBaseContext());
+        progressDialog = new ProgressDialog(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         iniciarActLocalizacion();
+        findViewById(R.id.fecha).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("fechas", "onClick: aparezco cuando hacen click");
+                mostrarDatePicker();
+            }
+        });
         sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
 
         //responder a las consultas de los lugares
@@ -223,19 +238,22 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     //------mostrar la ubicacion del usuario al presionar el boton--------
     public void irMiUbicacion(View v){
         if(latitud != 0 && longitud != 0){
+            if(miUbicacion != null){
+                miUbicacion.remove();
+            }
             LatLng miU = new LatLng(latitud,longitud);
             miUbicacion = mMap.addMarker(new MarkerOptions().position(miU).title("mi ubicacion"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
             mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         }
+        pedirJSON();
     }
 
     private LocationRequest createLocationRequest() {
-        LocationRequest locationRequest = LocationRequest.create()
+        return LocationRequest.create()
                 .setInterval(10000)
                 .setFastestInterval(5000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        return locationRequest;
     }
     //-------------------fechas------------------------------------------------
 
@@ -245,31 +263,92 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         int mes = calendar.get(Calendar.MONTH);
         int dia = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(this, mDateSetListener,anio,mes,dia);
-        dialog.show();
-
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int anio, int mes, int dia) {
                 mes = mes + 1;
                 String fechaSeleccionada = dia + "/" + mes + "/" + anio;
+                Log.i("fechaEvento", "onDateSet: " + fechaSeleccionada);
                 fecha.setText(fechaSeleccionada);
             }
         };
+        DatePickerDialog dialog = new DatePickerDialog(this, mDateSetListener,anio,mes,dia);
+        dialog.show();
+    }
+    private boolean verificarFecha(String fecha){
+        boolean resultado = false;
+        Date fechaactual = new Date(System.currentTimeMillis());
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaEventoDate = null;  //String a date
+        try {
+            fechaEventoDate = date.parse(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i("confFechas", "verificarFecha: "+ fechaactual);
+        Log.i("confFechas", "verificarFecha: "+ fechaEventoDate);
 
+        if(fechaEventoDate.after(fechaactual)){
+            resultado = true;
+        }
+        return resultado;
     }
     //-------------------Publicar----------------------------------------------
 
     public void publicar(View v){
+        boolean buscar = false, nombre = false, fechac = false, lugar = false;
+        if(TextUtils.isEmpty(busqueda.getText().toString())){
+            busqueda.setError("Indique el lugar del evento");
+        }
+        else{buscar = true;}
+        if(TextUtils.isEmpty(nombreEvento.getText().toString())){
+            nombreEvento.setError("Indique el nombre del evento");
+        }
+        else{nombre = true;}
+        if(TextUtils.isEmpty(fecha.getText().toString())){
+            fecha.setError("Indique la fecha del evento");
+        }
+        else{fechac = true;}
+        if(busquedaMarker == null){
+            Toast.makeText(CrearEvento.this, "No se ha indicado el lugar del evento", Toast.LENGTH_SHORT).show();
+        }
+        else{lugar = true;}
+        if(verificarFecha(fecha.getText().toString())){
+            if(buscar && nombre && fechac && lugar){
+                Evento nEvento = new Evento();
+                nEvento.setNombreEvento(nombreEvento.getText().toString());
+                nEvento.setLugar(busqueda.getText().toString());
+                nEvento.setFecha(fecha.getText().toString());
+                nEvento.setLatitud(busquedaMarker.getPosition().latitude);
+                nEvento.setLongitud(busquedaMarker.getPosition().longitude);
+
+                progressDialog.setMessage("Publicando evento...");
+                progressDialog.show();
+
+                String usuarioKey = mAuth.getCurrentUser().getUid();
+                myRef.child("Users").child(usuarioKey).child("eventos").child(myRef.push().getKey()).setValue(nEvento);
+                Toast.makeText(CrearEvento.this, "Evento publicado", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Toast.makeText(CrearEvento.this, "indique los datos del evento", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            fecha.setError("Indique una fecha posterior a la actual");
+        }
 
     }
+
     //-------------------acceder a la ubicacion--------------------------------
 
-    private void solicitarPermisos(Activity crearEvento, String permisosMapa, String acceso, int mapaid) {
+    private void solicitarPermisos(Activity crearEvento, String permisosMapa, String acceso) {
         if (ContextCompat.checkSelfPermission(crearEvento,permisosMapa) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(crearEvento,permisosMapa)){}
+            if(ActivityCompat.shouldShowRequestPermissionRationale(crearEvento,permisosMapa)){
+                Toast.makeText(this, "no podre mostrar su ubicación actual", Toast.LENGTH_SHORT).show();
+            }
         }
-        ActivityCompat.requestPermissions(crearEvento, new String[]{permisosMapa},mapaid);
+        ActivityCompat.requestPermissions(crearEvento, new String[]{permisosMapa},MAPAID);
     }
 
     @Override
@@ -336,7 +415,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     }
     //-----sensor de luminosidad-------------------------
     private SensorEventListener crearListener() {
-        SensorEventListener sensor = new SensorEventListener() {
+        return new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if(mMap != null){
@@ -353,12 +432,11 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
 
             }
         };
-        return sensor;
     }
 
     //----Trazar ruta-------------------------------------------
     private void pedirJSON(){
-        if(miUbicacion.getPosition() != null && busquedaMarker.getPosition() != null){
+        if(miUbicacion != null && busquedaMarker != null){
             String url = "https://maps.googleapis.com/maps/api/directions/json?origin="
                     + miUbicacion.getPosition().latitude
                     +"," + miUbicacion.getPosition().longitude
@@ -371,7 +449,6 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
                 public void onResponse(String response) {
                     try {
                         JSONObject json = new JSONObject(response);
-
                         Log.i("ruta ", response);
                         Log.i("url", url);
                         trazarRuta(json);
@@ -385,12 +462,13 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
             });
             queue.add(request);
         }
-        else if(miUbicacion.getPosition() == null){
+        else if(miUbicacion == null){
             Toast.makeText(this, "proporcione su ubicación",Toast.LENGTH_SHORT).show();
         }
-        else if(busquedaMarker.getPosition() == null){
-
+        else if(busquedaMarker == null){
+            Toast.makeText(this, "Indique el lugar del evento",Toast.LENGTH_SHORT).show();
         }
+
     }
 
     //https://maps.googleapis.com/maps/api/directions/json?origin=parametroLatitud,parametroLongitud&destination=parametroLatitud,parametroLongitud&key=AIzaSyCgbpdjKWsf7U4q2dkX4-PdFE49LKnIIiI
@@ -408,7 +486,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
                     for(int k = 0; k < jsteps.length();k++){
                         String polyline = "" + ((JSONObject)((JSONObject)jsteps.get(k)).get("polyline")).get("points");
                         List<LatLng> lista = PolyUtil.decode(polyline);
-                        mMap.addPolyline(new PolylineOptions().addAll(lista).color(Color.GRAY).width(5));
+                        mMap.addPolyline(new PolylineOptions().addAll(lista).color(Color.CYAN).width(6));
                     }
                 }
             }
