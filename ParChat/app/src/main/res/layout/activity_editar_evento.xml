@@ -1,121 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCEBD9"
-    android:paddingRight="5dp"
-    android:paddingLeft="5dp"
     tools:context=".editarEvento">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <EditText
         android:id="@+id/barraBuscar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
         android:hint="@string/lugar"
         android:imeOptions="actionSend"
-        android:inputType="text"
-        android:paddingLeft="10dp"
+        android:inputType="textCapSentences"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/nEvento"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_margin="15dp"/>
 
     <EditText
         android:id="@+id/nEvento"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
         android:hint="@string/nombreEvento"
-        android:inputType="text"
-        android:paddingLeft="10dp"
+        android:inputType="textCapSentences"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barraBuscar" />
+        android:imeOptions="actionNext"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="75dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
 
     <EditText
         android:id="@+id/fecha"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:paddingLeft="10dp"
         android:background="@drawable/borderstyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nEvento"
-        android:hint="@string/fecha"/>
+        android:backgroundTint="#B3FFFFFF"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/fecha"
+        android:inputType="date"
+        android:textSize="24sp"
+        android:imeOptions="actionDone"
+        android:layout_marginTop="135dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="35dp"
-        android:background="@drawable/borderlayout"
-        app:layout_constraintBottom_toTopOf="@+id/conf"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fecha">
-
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="0dp">
-
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="10dp" />
-
-
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:background="@drawable/ubicacion"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_baseline_gps_fixed_24"
+        app:backgroundTint="@null" />
 
     <Button
         android:id="@+id/conf"
         android:layout_width="200dp"
         android:layout_height="55dp"
-        android:layout_gravity="start"
-        android:layout_marginBottom="3dp"
         android:background="@drawable/boton"
+        android:backgroundTint="#B3FF5F6D"
         android:fontFamily="@font/roboto_medium"
         android:onClick="guardar"
-        android:text="@string/confirmar"
+        android:text="@string/guardar"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="30dp"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

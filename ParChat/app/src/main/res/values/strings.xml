@@ -26,7 +26,7 @@
     <string name="lugar">Lugar</string>
     <string name="nombreEvento">Nombre del evento</string>
     <string name="publicar">Publicar</string>
-    <string name="fecha">Fecha del evento DD/MM/AA</string>
+    <string name="fecha">Fecha del evento</string>
     <string name="volver"><u>Volver</u></string>
     <string name="confirmar_contra">Confirmar Contraseña</string>
     <string name="mis_eventos">Mis Eventos</string>
@@ -42,4 +42,6 @@
     <string name="camara">Camara</string>
     <string name="aceptar">Aceptar</string>
     <string name="confirmar">Guardar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="editar">Editar</string>
 </resources>

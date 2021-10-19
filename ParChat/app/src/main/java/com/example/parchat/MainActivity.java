@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         Log.e(TAG,"Login failed: "+ task.getException().toString());
                         Toast.makeText(MainActivity.this,"Error de inicio de sesion",Toast.LENGTH_SHORT).show();
-
                         email.setText("");
                         password.setText("");
                     }

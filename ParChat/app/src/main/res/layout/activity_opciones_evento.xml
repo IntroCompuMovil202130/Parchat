@@ -1,130 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCEBD9"
-    android:paddingRight="5dp"
-    android:paddingLeft="5dp"
     tools:context=".opcionesEvento">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/barraBuscar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
         android:hint="@string/lugar"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dp"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/nEvento"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_margin="15dp"/>
 
     <TextView
         android:id="@+id/nEvento"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
         android:hint="@string/nombreEvento"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barraBuscar" />
+        android:gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="75dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
 
     <TextView
         android:id="@+id/fecha"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
         android:hint="@string/fecha"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nEvento" />
+        android:gravity="center_vertical"
+        android:layout_marginTop="135dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="35dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp">
 
-        android:background="@drawable/borderlayout"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton11"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fecha">
+        <Button
+            android:id="@+id/imageButton11"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@drawable/boton"
+            android:backgroundTint="#B3FCEBD9"
+            android:fontFamily="@font/roboto_medium"
+            android:onClick="editarEvento"
+            android:text="@string/editar"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_margin="10dp"/>
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="0dp">
+        <Button
+            android:id="@+id/imageButton12"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@drawable/boton"
+            android:backgroundTint="#B3FF5F6D"
+            android:fontFamily="@font/roboto_medium"
+            android:onClick="eliminarEvento"
+            android:text="@string/eliminar"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="10dp" />
-
-
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/imageButton11"
-        android:layout_width="113dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/borderstyle"
-        android:fontFamily="@font/roboto_medium"
-        android:onClick="editarEvento"
-        android:text="Editar"
-        android:textColor="@color/black"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/imageButton12"
-        android:layout_width="113dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/boton"
-        android:fontFamily="@font/roboto_medium"
-        android:onClick="eliminarEvento"
-        android:text="Eliminar"
-        android:textColor="@color/black"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

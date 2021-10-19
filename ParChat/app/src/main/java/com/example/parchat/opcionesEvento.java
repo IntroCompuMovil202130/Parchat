@@ -171,7 +171,6 @@ public class opcionesEvento extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         if(latitud != 0 && longitud != 0){
             if(miUbicacion != null){
