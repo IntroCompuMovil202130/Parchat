@@ -57,7 +57,8 @@ Me gusta hacer deporte y soy amante de los animales, también a veces me gusta p
 # Cambios en el diseño de la aplicación
 ## Diagrama de casos de uso
 
-
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Segunda%20entrega/DiagramaCasosDeUso.png" alt="chat" width="400" height="400"/>
 
 ## Diagrama de clases
 
+<img src="https://github.com/IntroCompuMovil202130/Parchat/blob/main/Entregables/Segunda%20entrega/Clases%20Parchat.jpeg" alt="chat" width="400" height="400"/>
