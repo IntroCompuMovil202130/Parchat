@@ -11,7 +11,7 @@ import com.example.parchat.databinding.MensajeReceptorBinding;
 
 import java.util.List;
 
-public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<MensajeChat> mensajesChats;
     private final String emisorId;
@@ -19,7 +19,7 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
 
-    public MensajeAdapter(List<MensajeChat> mensajesChats, String emisorId) {
+    public ChatAdapter(List<MensajeChat> mensajesChats, String emisorId) {
         this.mensajesChats = mensajesChats;
         this.emisorId = emisorId;
     }
@@ -27,7 +27,7 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == VIEW_TYPE_SENT){
+        if( viewType == VIEW_TYPE_SENT ){
             return new SentMessageViewHolder(
                     MensajeEmisorBinding.inflate(
                             LayoutInflater.from(parent.getContext()), parent, false
@@ -36,7 +36,7 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }else{
             return new ReceivedMessageViewHolder(
                     MensajeReceptorBinding.inflate(
-                            LayoutInflater.from(parent.getContext()),parent, false
+                            LayoutInflater.from(parent.getContext()), parent, false
                     )
             );
         }
@@ -58,7 +58,7 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if(mensajesChats.get(position).emisorId.equals(emisorId)){
+        if( mensajesChats.get(position).emisorId.equals(emisorId) ){
             return VIEW_TYPE_SENT;
         }else {
             return VIEW_TYPE_RECEIVED;
@@ -66,7 +66,7 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder{
-        private MensajeEmisorBinding binding;
+        private final MensajeEmisorBinding binding;
 
         public SentMessageViewHolder(MensajeEmisorBinding mensajeEmisorBinding) {
             super(mensajeEmisorBinding.getRoot());
@@ -75,11 +75,12 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         void setData(MensajeChat mensajeChat){
             binding.mensajeEmisor.setText(mensajeChat.mensaje);
+            binding.textDateTime.setText(mensajeChat.dateTime);
         }
     }
 
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder{
-        private MensajeReceptorBinding binding;
+        private final MensajeReceptorBinding binding;
 
         public ReceivedMessageViewHolder(MensajeReceptorBinding mensajeReceptorBinding) {
             super(mensajeReceptorBinding.getRoot());
@@ -88,7 +89,7 @@ public class MensajeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         void setData(MensajeChat mensajeChat){
             binding.mensajeReceptor.setText(mensajeChat.mensaje);
+            binding.textDateTime.setText(mensajeChat.dateTime);
         }
     }
-
 }

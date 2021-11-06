@@ -145,7 +145,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         fecha = findViewById(R.id.fecha);
 
         revisarGPS();
-        solicitarPermisos(this, permisosMapa, "acceso a su GPS");
+        solicitarPermisos(this, permisosMapa, "Acceso a GPS");
 
         mLocationCallback = new LocationCallback() {
             @Override
@@ -344,7 +344,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     private void solicitarPermisos(Activity crearEvento, String permisosMapa, String acceso) {
         if (ContextCompat.checkSelfPermission(crearEvento,permisosMapa) != PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(crearEvento,permisosMapa)){
-                Toast.makeText(this, "no podre mostrar su ubicación actual", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No se podra mostrar su ubicación actual", Toast.LENGTH_SHORT).show();
             }
         }
         ActivityCompat.requestPermissions(crearEvento, new String[]{permisosMapa},MAPAID);

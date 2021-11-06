@@ -1,6 +1,5 @@
 package com.example.parchat;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -11,33 +10,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Registrarse extends AppCompatActivity {
 
-    EditText textName;
     EditText textEmail;
     EditText textPassword;
     EditText textConfirmPass;
 
-
-    private String name = "";
-    private  String email = "";
-    private  String password = "";
+    private String email = "";
+    private String password = "";
     private String conPass = "";
 
 
     private ProgressDialog progressDialog;
     FirebaseAuth mAuth;
-    DatabaseReference mDataBase;
+    DatabaseReference database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +37,7 @@ public class Registrarse extends AppCompatActivity {
         setContentView(R.layout.activity_registrarse);
 
         mAuth = FirebaseAuth.getInstance();
-        mDataBase = FirebaseDatabase.getInstance().getReference();
 
-        textName = findViewById(R.id.editText);
         textEmail = findViewById(R.id.editText2);
         textPassword = findViewById(R.id.contraseña);
         textConfirmPass = findViewById(R.id.contraseña_conf);
@@ -62,16 +52,11 @@ public class Registrarse extends AppCompatActivity {
 
     public void registrarse(View v){
 
-        name = textName.getText().toString().trim();
         email = textEmail.getText().toString().trim();
         password = textPassword.getText().toString().trim();
         conPass = textConfirmPass.getText().toString().trim();
 
-        if(TextUtils.isEmpty(name)){
-            Toast.makeText(Registrarse.this,"Debe ingresar un nombre",Toast.LENGTH_SHORT).show();
-            return;
-
-        }else if(TextUtils.isEmpty(email)){
+        if(TextUtils.isEmpty(email)){
             Toast.makeText(Registrarse.this,"Debe ingresar un email",Toast.LENGTH_SHORT).show();
             return;
 
@@ -116,17 +101,17 @@ public class Registrarse extends AppCompatActivity {
         progressDialog.setMessage("Realizando registro en linea...");
         progressDialog.show();
 
-
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Intent intent = new Intent(Registrarse.this, EditarPerfil.class);
-                    intent.putExtra("nombre", name);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(Registrarse.this,"No se pudo registrar este usuario",Toast.LENGTH_SHORT).show();
-                }
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                HashMap<String, String> data = new HashMap<>();
+                data.put("perfil", "0");
+                database = FirebaseDatabase.getInstance().getReference("Users/" + mAuth.getCurrentUser().getUid());
+                database.setValue(data);
+                mAuth.signOut();
+                Intent intent = new Intent(Registrarse.this, MainActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(Registrarse.this,"No se pudo registrar este usuario",Toast.LENGTH_SHORT).show();
             }
         });
 

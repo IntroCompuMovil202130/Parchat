@@ -44,4 +44,13 @@
     <string name="confirmar">Guardar</string>
     <string name="eliminar">Eliminar</string>
     <string name="editar">Editar</string>
+    <string name="genero">Genero:</string>
+    <string name="interes">Interes:</string>
+    <string name="nombre">Nombre</string>
+    <string-array name="generos">
+        <item>Seleccione</item>
+        <item>Hombre</item>
+        <item>Mujer</item>
+        <item>Otro</item>
+    </string-array>
 </resources>

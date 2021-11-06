@@ -74,10 +74,10 @@ public class Perfil extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usuario = dataSnapshot.getValue(Usuario.class);
                 System.out.println(usuario.toString());
-                nombre.setText(usuario.getNombre());
-                edad.setText(usuario.getEdad());
-                desc.setText(usuario.getDesc());
-                ciudad.setText(usuario.getCiudad());
+                nombre.setText(usuario.nombre);
+                edad.setText(usuario.edad);
+                desc.setText(usuario.desc);
+                ciudad.setText(usuario.ciudad);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

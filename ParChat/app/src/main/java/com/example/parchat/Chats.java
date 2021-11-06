@@ -36,7 +36,7 @@ public class Chats extends AppCompatActivity implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, Chat.class);
-        intent.putExtra("id", s.usuarios.get(i).getId() );
+        intent.putExtra("id", s.usuarios.get(i).id );
         startActivity( intent );
     }
 

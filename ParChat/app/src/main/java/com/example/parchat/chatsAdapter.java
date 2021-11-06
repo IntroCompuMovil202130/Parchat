@@ -38,10 +38,10 @@ public class ChatsAdapter extends ArrayAdapter<Usuario> {
         }
         this.u = usuarios.get(position);
         nombreU = view.findViewById(R.id.nombreChat);
-        nombreU.setText(u.getNombre());
+        nombreU.setText(u.nombre);
 
         fotoU = view.findViewById(R.id.fotochat);
-        int fotousu = Integer.parseInt(u.getFoto());
+        int fotousu = Integer.parseInt(u.foto);
         fotoU.setImageResource(fotousu);
 
         return view;

@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.parchat.Camara;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +38,7 @@ public class EditarPerfil extends AppCompatActivity {
     RoundedImageView foto;
     EditText nombre, edad, ciudad, desc, fb, ig, tk, tw;
     Usuario usuario;
+    Spinner generos, interes;
 
     DatabaseReference myRef;
     FirebaseAuth mAuth;
@@ -53,7 +53,6 @@ public class EditarPerfil extends AppCompatActivity {
 
         inflarVariables();
 
-        nombre.setText(getIntent().getStringExtra("nombre"));
         myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
     }
@@ -68,6 +67,8 @@ public class EditarPerfil extends AppCompatActivity {
         ig = findViewById(R.id.igEditText);
         tk = findViewById(R.id.tkEditText);
         tw = findViewById(R.id.twEditText);
+        generos = findViewById(R.id.spinnerGeneros);
+        interes = findViewById(R.id.spinnerIntereses);
     }
 
     public void goToMatchs(View v){
@@ -84,16 +85,16 @@ public class EditarPerfil extends AppCompatActivity {
 
     public void subirImagen(View v){
         if(ActivityCompat.checkSelfPermission(this,permisoGaleria)!= PackageManager.PERMISSION_GRANTED){
-            requestPermission(this,permisoGaleria,"",idGaleria);
+            requestPermission(this,permisoGaleria, idGaleria);
         }else{
             galleryImage();
         }
     }
 
-    private void requestPermission(Activity context, String permission, String justification, int id){
+    private void requestPermission(Activity context, String permission, int id){
         if(ContextCompat.checkSelfPermission(this,permission)!= PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(context, permission)){
-                Toast.makeText(context,justification,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "No podra subir imagenes",Toast.LENGTH_SHORT).show();
             }
             ActivityCompat.requestPermissions(context, new String[]{permission},id);
         }
@@ -128,7 +129,7 @@ public class EditarPerfil extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        };
+        }
     }
 
     public void guardarPerfil(View v){
@@ -138,6 +139,8 @@ public class EditarPerfil extends AppCompatActivity {
             uriValue = String.valueOf(uri);
             usuario = new Usuario(mAuth.getCurrentUser().getUid(), nombre.getText().toString(), uriValue, desc.getText().toString(), edad.getText().toString(),
                     ciudad.getText().toString(), fb.getText().toString(), ig.getText().toString(), tk.getText().toString(), tw.getText().toString());
+            usuario.genero = generos.getTransitionName();
+            usuario.interes = interes.getTransitionName();
 
             myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(usuario);
 
