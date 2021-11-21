@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(){
-        startActivity(new Intent(MainActivity.this, Match.class));
+        Intent intent = new Intent(MainActivity.this, Match.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public void registrarse(View v){

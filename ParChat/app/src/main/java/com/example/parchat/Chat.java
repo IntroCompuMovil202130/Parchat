@@ -38,7 +38,11 @@ public class Chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        receiverUser = (Usuario) getIntent().getSerializableExtra("user");
         auth = FirebaseAuth.getInstance();
+
+        binding.nombreChat.setText(receiverUser.nombre);
 
         setListeners();
     }

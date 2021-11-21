@@ -47,6 +47,15 @@
     <string name="genero">Genero:</string>
     <string name="interes">Interes:</string>
     <string name="nombre">Nombre</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
+    <string name="crear_evento">Crear Evento</string>
+    <string name="matchs">Matchs</string>
+    <string name="perfil">Perfil</string>
+    <string name="perfil_usuario">Perfil Usuario</string>
+    <string name="rechazar">Rechazar</string>
+    <string name="imagen_usuario">Imagen Usuario</string>
+    <string name="no_hay_perfiles">No hay mas perfiles disponibles</string>
     <string-array name="generos">
         <item>Seleccione</item>
         <item>Hombre</item>

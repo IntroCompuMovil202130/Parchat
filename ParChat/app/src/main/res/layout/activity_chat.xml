@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
-        android:background="#FCBAC3"
+        android:background="#33FCBAC3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -96,7 +96,8 @@
             android:background="@drawable/borderchat"
             android:hint="@string/mensaje"
             android:inputType="textCapSentences"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:autofillHints="name" />
 
         <FrameLayout
             android:id="@+id/layoutSend"

@@ -84,14 +84,12 @@ public class Registrarse extends AppCompatActivity {
             return true;
         }else{
             Toast.makeText(Registrarse.this,"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
-
             return false;
         }
     }
     private boolean isEmailValid(String email) {
         if (!email.contains("@") ||!email.contains(".") || email.length() < 5) {
             Toast.makeText(Registrarse.this,"Email no valido",Toast.LENGTH_SHORT).show();
-
             return false;
         }
         return true;

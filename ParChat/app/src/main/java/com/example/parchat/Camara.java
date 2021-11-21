@@ -7,12 +7,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,10 +27,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.parchat.databinding.ActivityCamaraBinding;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class Camara extends AppCompatActivity {
+
+    private SensorManager sensorManager;
+    private Sensor sensorProximity;
+
+    private ActivityCamaraBinding binding;
 
     ImageView image;
     String permisoCamara = Manifest.permission.CAMERA;
@@ -36,13 +49,58 @@ public class Camara extends AppCompatActivity {
     private static final int IMAGEN_R = 0;
     private static final int CAMARA_R = 1;
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camara);
+        binding = ActivityCamaraBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+
+        if (sensorProximity == null){
+            finish();
+        }
 
         image = findViewById(R.id.imagen);
     }
+
+    SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if( event.values[0] < 2.0 ){
+                binding.aceptar.setVisibility(View.INVISIBLE);
+                binding.frameLayout.setVisibility(View.VISIBLE);
+            }else{
+                binding.aceptar.setVisibility(View.VISIBLE);
+                binding.frameLayout.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        // Register a listener for the sensor.
+        super.onResume();
+        sensorManager.registerListener(sensorEventListener, sensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        // Be sure to unregister the sensor when the activity pauses.
+        super.onPause();
+        sensorManager.unregisterListener(sensorEventListener);
+    }
+
+    //-------------------------------------------
+
 
 
     private void camaraImage(){
@@ -129,4 +187,6 @@ public class Camara extends AppCompatActivity {
     public void volver(View v){
         onBackPressed();
     }
+
+
 }

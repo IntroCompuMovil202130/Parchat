@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".Perfil">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -20,9 +20,8 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="#FCEBD9"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/app_name"
@@ -32,7 +31,15 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-    </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menu"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_menu"
+            android:tint="@color/black"
+            android:layout_gravity="center|end"/>
+    </FrameLayout>
 
     <LinearLayout
 
@@ -102,9 +109,9 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/imageView"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:scaleType="fitCenter"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -131,9 +138,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:padding="5dp"
                 android:text="@string/descripcion"
                 android:textAlignment="center"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -230,36 +238,6 @@
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/imageButton7"
-                android:layout_width="48dp"
-                android:layout_height="78dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="100dp"
-                android:background="#00FFFFFF"
-                android:scaleType="fitCenter"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="?attr/actionModeCloseDrawable"
-                tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-
-            <ImageButton
-                android:id="@+id/imageButton8"
-                android:layout_width="48dp"
-                android:layout_height="78dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginEnd="8dp"
-                android:background="#00FFFFFF"
-                android:rotation="180"
-                android:scaleType="fitCenter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.428"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="?attr/actionModeCloseDrawable"
-                tools:ignore="MissingConstraints" />
-
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
@@ -307,4 +285,36 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/editProfileOption"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/editar_perfil"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="60dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/signOutOption"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:visibility="gone"
+        android:text="@string/cerrar_sesi_n"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileOption" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

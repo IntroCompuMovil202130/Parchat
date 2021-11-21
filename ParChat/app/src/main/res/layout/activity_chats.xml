@@ -6,30 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".Chats"
     android:background="#FCEBD9">
-    <LinearLayout
+
+    <FrameLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
+        android:background="#FCEBD9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/app_name"
+            android:background="#FCEBD9"
             android:fontFamily="@font/roboto_medium"
+            android:text="@string/app_name"
+            android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="60sp"
             android:textStyle="bold"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-    </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menu"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_menu"
+            android:tint="@color/black"
+            android:layout_gravity="center|end"/>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,5 +112,36 @@
             android:onClick="goToCreateEvent"
             app:srcCompat="@drawable/ic_baseline_event_24" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/editProfileOption"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/editar_perfil"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="60dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/signOutOption"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:visibility="gone"
+        android:text="@string/cerrar_sesi_n"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileOption" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
