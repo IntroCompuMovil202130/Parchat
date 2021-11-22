@@ -18,7 +18,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
-public class ChatsAdapter extends ArrayAdapter<Usuario> {
+public class chatsAdapter extends ArrayAdapter<Usuario> {
 
     Context context;
     List<Usuario> usuarios;
@@ -27,7 +27,7 @@ public class ChatsAdapter extends ArrayAdapter<Usuario> {
     TextView nombreU;
     RoundedImageView fotoU;
 
-    public ChatsAdapter(@NonNull Context context, int resource, List<Usuario> usuarios) {
+    public chatsAdapter(@NonNull Context context, int resource, List<Usuario> usuarios) {
         super(context, resource, usuarios);
         this.context = context;
         this.usuarios = usuarios;

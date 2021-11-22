@@ -39,6 +39,8 @@ public class Perfil extends AppCompatActivity {
     private ArrayList<String> eventos;
     private ArrayAdapter<String> adaptador;
     private boolean menu = true;
+    private boolean otroU = false;
+    private boolean amigos = false;
 
     Usuario usuario;
     TextView nombre, desc, edad, ciudad;
@@ -58,11 +60,9 @@ public class Perfil extends AppCompatActivity {
         inflarVariables();
         eventos = new ArrayList<>();
         adaptador = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,eventos);
-        listaEventos = findViewById(R.id.listaEventos);
         allEventos = new ArrayList<>();
-        eventos = new ArrayList<>();
-        adaptador = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,eventos);
         listaEventos.setAdapter(adaptador);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
         createListeners();
@@ -85,6 +85,7 @@ public class Perfil extends AppCompatActivity {
 
     public void cargarInfo() throws IOException {
         if(usuario != null){ //Usuario perfil del match
+            otroU = true;
             StorageReference storage = FirebaseStorage.getInstance().getReference();
             StorageReference imageRef = storage.child("ProfileImages/" + usuario.id + "/image.jpg");
             imageRef.getDownloadUrl().addOnSuccessListener(uri -> Glide.with(Perfil.this).load(uri).into(imagen))
@@ -96,8 +97,11 @@ public class Perfil extends AppCompatActivity {
             edad.setText(usuario.edad);
             desc.setText(usuario.desc);
             ciudad.setText(usuario.ciudad);
+            verificarAmistad(mAuth.getCurrentUser().getUid(),usuario.id,usuario.nombre);
+            cargarEventos(usuario.id);
 
         }else{ // Usuario actual logeado
+            otroU = false;
             StorageReference storage = FirebaseStorage.getInstance().getReference();
             StorageReference imageRef = storage.child("ProfileImages/" + Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + "/image.jpg");
             imageRef.getDownloadUrl().addOnSuccessListener(uri -> Glide.with(Perfil.this).load(uri).into(imagen))
@@ -123,7 +127,29 @@ public class Perfil extends AppCompatActivity {
                     Toast.makeText(Perfil.this, "Error al intentar leer la base de datos", Toast.LENGTH_LONG).show();
                 }
             });
+            cargarEventos(mAuth.getCurrentUser().getUid());
         }
+    }
+
+    private void verificarAmistad(String uid, String otroId, String nombreOtro) {
+        myRef = db.getReference("chats/" + uid);
+        myRef.orderByChild(otroId).equalTo(nombreOtro).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario res = snapshot.getValue(Usuario.class);
+                if(res != null){
+                    amigos = true;
+                }
+                else{
+                    Log.i("amigos", "No son amigos");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -132,15 +158,23 @@ public class Perfil extends AppCompatActivity {
         eventos.clear();
         adaptador.notifyDataSetChanged();
 
-        cargarEventos();
-
         listaEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listaEventos.getItemAtPosition(i).toString();
                 Evento eventoS = allEventos.get(i);
+                Bundle extras = new Bundle();
+
                 Intent intent = new Intent(view.getContext(),opcionesEvento.class);
-                intent.putExtra("eventoM", eventoS.toString());
+                extras.putSerializable("eventoM", eventoS);
+                if(otroU){
+                    extras.putBoolean("oUsuario",true);
+                    extras.putString("oUsuId",usuario.id);
+                }
+                else{
+                    extras.putBoolean("oUsuario",false);
+                }
+                intent.putExtras(extras);
                 startActivity(intent);
             }
         });
@@ -158,25 +192,33 @@ public class Perfil extends AppCompatActivity {
         startActivity(new Intent(v.getContext(), CrearEvento.class));
     }
 
-    public void cargarEventos(){
-        String uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        myRef = FirebaseDatabase.getInstance().getReference("eventos/" + uid);
-        myRef.addValueEventListener(new ValueEventListener() {
+    public void cargarEventos(String id){
+        myRef = db.getReference("eventos/" + id);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 allEventos.clear();
-                for(DataSnapshot singleShot: dataSnapshot.getChildren()){
-                    Evento evento = singleShot.getValue(Evento.class);
-                    evento.setId(singleShot.getKey());
-                    eventos.add(evento.getNombreEvento() + " " + evento.getLugar() + " " + evento.getFecha());
-                    adaptador.notifyDataSetChanged();
-                    allEventos.add(evento);
+               if(amigos){
+                    for(DataSnapshot singleShot: snapshot.getChildren()){
+
+                        String idEvento = singleShot.child("id").getValue(String.class);
+                        String fechaEv = singleShot.child("fecha").getValue(String.class);
+                        String nombre = singleShot.child("nombreEvento").getValue(String.class);
+                        String lugar = singleShot.child("lugar").getValue(String.class);
+                        double latitud = singleShot.child("latitud").getValue(Double.class);
+                        double longitud = singleShot.child("longitud").getValue(Double.class);
+                        boolean organizador = singleShot.child("organizador").getValue(Boolean.class);
+
+                        Evento evento = new Evento(idEvento,nombre,lugar,fechaEv,latitud,longitud,organizador);
+                        eventos.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
+                        adaptador.notifyDataSetChanged();
+                        allEventos.add(evento);
+                    }
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("lista de eventos", "error en la consulta", databaseError.toException());
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

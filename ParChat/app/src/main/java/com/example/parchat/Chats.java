@@ -33,7 +33,7 @@ public class Chats extends AppCompatActivity implements AdapterView.OnItemClickL
     private boolean menu = true;
 
     ListView chats;
-    ChatsAdapter adapter;
+    chatsAdapter adapter;
     private List< Usuario > usuarios;
 
     @Override
@@ -72,7 +72,7 @@ public class Chats extends AppCompatActivity implements AdapterView.OnItemClickL
     public void crearChats(){
         chats = findViewById(R.id.chats);
         chats.setOnItemClickListener(this);
-        adapter = new ChatsAdapter(this, R.layout.chat, usuarios);
+        adapter = new chatsAdapter(this, R.layout.chat, usuarios);
         chats.setAdapter(adapter);
     }
 

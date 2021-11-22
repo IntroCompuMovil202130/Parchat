@@ -78,9 +78,23 @@
             android:layout_margin="10dp"/>
 
         <Button
+            android:id="@+id/unirseAEvento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/unirse"
+            android:onClick="unirseAEvento"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/boton"
+            android:backgroundTint="#B3FF5F6D"/>
+
+        <Button
             android:id="@+id/imageButton12"
             android:layout_width="0dp"
             android:layout_height="55dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/boton"
             android:backgroundTint="#B3FF5F6D"
@@ -88,8 +102,8 @@
             android:onClick="eliminarEvento"
             android:text="@string/eliminar"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_margin="10dp"/>
+            android:textSize="20sp" />
+
     </LinearLayout>
 
 </FrameLayout>
