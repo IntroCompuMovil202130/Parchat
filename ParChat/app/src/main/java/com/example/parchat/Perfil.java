@@ -3,6 +3,7 @@ package com.example.parchat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -267,12 +268,19 @@ public class Perfil extends AppCompatActivity {
                        boolean organizador = singleShot.child("organizador").getValue(Boolean.class);
 
                        Evento evento = new Evento(idEvento,nombre,lugar,fechaEv,latitud,longitud,organizador,idOrg);
-                       eventos.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
-                       adaptador.notifyDataSetChanged();
-                       allEventos.add(evento);
+
+                       if(verificarFecha(evento)){
+                           eventosHoy.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
+                           adaptadorHoy.notifyDataSetChanged();
+                           allEventos.add(evento);
+                       }
+                       else {
+                           eventos.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
+                           adaptador.notifyDataSetChanged();
+                           allEventos.add(evento);
+                       }
                    }
-                   Log.i("hola?", "comparando fechas");
-                   mostrarEventoDeHoy();
+
                }
 
             }
@@ -284,28 +292,25 @@ public class Perfil extends AppCompatActivity {
 
     }
 
-    private void mostrarEventoDeHoy() {
-
+    private boolean verificarFecha(Evento evento){
+        boolean resultado = false;
         Date fechaAct = new Date();
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
         Date fechaEventoDate = null;
 
-        for (Evento evento: allEventos) {
-            String fecha = evento.fecha;
+        try {
+            fechaEventoDate = date.parse(evento.fecha);
+            if((fechaAct.getDay() == fechaEventoDate.getDay()) &
+                    (fechaAct.getMonth() == fechaEventoDate.getMonth()) &
+                    (fechaAct.getYear() == fechaEventoDate.getYear())){
 
-            try {
-                fechaEventoDate = date.parse(fecha);
-                if((fechaAct.getDay() == fechaEventoDate.getDay()) &
-                        (fechaAct.getMonth() == fechaEventoDate.getMonth()) &
-                                (fechaAct.getYear() == fechaEventoDate.getYear())){
-                    Log.i("evHoy", "el evento es hoy: ");
-                    eventosHoy.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
-                    adaptadorHoy.notifyDataSetChanged();
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+                resultado = true;
             }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        return resultado;
     }
 
     public void createListeners(){
