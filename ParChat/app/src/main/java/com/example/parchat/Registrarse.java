@@ -112,6 +112,5 @@ public class Registrarse extends AppCompatActivity {
                 Toast.makeText(Registrarse.this,"No se pudo registrar este usuario",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

@@ -1,7 +1,6 @@
 package com.example.parchat;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +8,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.parchat.databinding.ActivityChatBinding;
+import com.example.parchat.network.ApiClient;
+import com.example.parchat.network.ApiService;
 import com.example.parchat.utilities.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +35,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Chat extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class Chat extends BaseActivity {
 
     private ActivityChatBinding binding;
     private Usuario receiverUser;
@@ -38,7 +47,6 @@ public class Chat extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private FirebaseFirestore database;
     private FirebaseAuth auth;
-    //private String conversionId = null;
     private Boolean isReceiverAvailable = false;
     private Usuario currentUser;
 
@@ -83,7 +91,6 @@ public class Chat extends AppCompatActivity {
                 showToast("No se pudo leer al usuario actual");
             }
         });
-
     }
 
     private void sendMessage(){
@@ -93,27 +100,18 @@ public class Chat extends AppCompatActivity {
         message.put(Constants.KEY_MESSAGE, binding.editTextChat.getText().toString());
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
-        /*if(conversionId != null){
-            updateConversion(binding.editTextChat.getText().toString());
-        }else{
-            HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, currentUser.id);
-            conversion.put(Constants.KEY_SENDER_NAME, currentUser.nombre);
-            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.nombre);
-            conversion.put(Constants.KEY_TIMESTAMP, new Date());
-            addConversion(conversion);
-        }*/
-        /*if(!isReceiverAvailable){
+        binding.editTextChat.setText(null);
+        if(!isReceiverAvailable){
             try{
                 JSONArray tokens = new JSONArray();
                 tokens.put(receiverUser.token);
+                showToast("1: " + receiverUser.token);
 
                 JSONObject data = new JSONObject();
-                data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
-                data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+                data.put(Constants.KEY_USER_ID, currentUser.id);
+                data.put(Constants.KEY_NAME, currentUser.nombre);
+                data.put(Constants.KEY_FCM_TOKEN, currentUser.token);
+                data.put(Constants.KEY_MESSAGE, binding.editTextChat.getText().toString());
 
                 JSONObject body = new JSONObject();
                 body.put(Constants.REMOTE_MSG_DATA, data);
@@ -123,23 +121,13 @@ public class Chat extends AppCompatActivity {
             }catch (Exception e){
                 showToast(e.getMessage());
             }
-        }*/
-        binding.editTextChat.setText(null);
+        }
     }
 
     private void loadReceiverDetail(){
         receiverUser = (Usuario) getIntent().getSerializableExtra("user");
         binding.nombreChat.setText(receiverUser.nombre);
     }
-
-    /*private void updateConversion(String message){
-        DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
-        documentReference.update(
-                Constants.KEY_LAST_MESSAGE, message,
-                Constants.KEY_TIMESTAMP, new Date()
-        );
-    }*/
 
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
@@ -183,9 +171,6 @@ public class Chat extends AppCompatActivity {
             binding.chatRecyclerView.setVisibility(View.VISIBLE);
         }
         binding.progressBar.setVisibility(View.GONE);
-        /*if(conversionId == null){
-            checkForConversion();
-        }*/
     };
 
     private String getReadableDateTime(Date date){
@@ -212,11 +197,41 @@ public class Chat extends AppCompatActivity {
                     isReceiverAvailable = availability == 1;
                 }
                 receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
-                /*if(receiverUser.image == null){
-                    receiverUser.image = value.getString(Constants.KEY_IMAGE);
-                    chatAdapter.setReceiverProfileImage(getBitmapFromEncodedString(receiverUser.image));
-                    chatAdapter.notifyItemRangeChanged(0, chatMessages.size());
-                }*/
+                showToast("1: " + receiverUser.token);
+            }
+        });
+    }
+
+    private void sendNotification(String messageBody){
+        ApiClient.getClient().create(ApiService.class).sendMessage(
+                Constants.getRemoteMsgHeaders(),
+                messageBody
+        ).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if(response.isSuccessful()){
+                    try{
+                        if(response.body() != null){
+                            JSONObject responseJson = new JSONObject(response.body());
+                            JSONArray results = responseJson.getJSONArray("results");
+                            if(responseJson.getInt("failure") == 1){
+                                JSONObject error = (JSONObject) results.get(0);
+                                showToast(error.getString("error"));
+                                return;
+                            }
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    showToast("Notification sent successfully");
+                }else {
+                    showToast("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                showToast(t.getMessage());
             }
         });
     }

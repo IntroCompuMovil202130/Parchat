@@ -21,18 +21,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.parchat.databinding.ActivityEditarPerfilBinding;
+import com.example.parchat.utilities.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class EditarPerfil extends AppCompatActivity {
@@ -186,6 +189,13 @@ public class EditarPerfil extends AppCompatActivity {
 
                         myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(usuario);
                         Toast.makeText(EditarPerfil.this, "Datos guardados", Toast.LENGTH_SHORT).show();
+                        FirebaseFirestore database = FirebaseFirestore.getInstance();
+                        HashMap<String, Object> user = new HashMap<>();
+                        user.put(Constants.KEY_NAME, nombre.getText().toString());
+                        database.collection(Constants.KEY_COLLECTION_USER).document(mAuth.getCurrentUser().getUid())
+                                .set(user)
+                                .addOnSuccessListener(documentReference -> showToast("Usuario guardado correctamente"))
+                                .addOnFailureListener(exception -> showToast(exception.getMessage()));
                         startActivity(new Intent(EditarPerfil.this, Perfil.class));
                     })
                     .addOnFailureListener(e -> {
@@ -200,9 +210,20 @@ public class EditarPerfil extends AppCompatActivity {
 
             myRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(usuario);
             Toast.makeText(EditarPerfil.this, "Datos guardados", Toast.LENGTH_SHORT).show();
+            FirebaseFirestore database = FirebaseFirestore.getInstance();
+            HashMap<String, Object> user = new HashMap<>();
+            user.put(Constants.KEY_NAME, nombre.getText().toString());
+            database.collection(Constants.KEY_COLLECTION_USER).document(mAuth.getCurrentUser().getUid())
+                    .set(user)
+                    .addOnSuccessListener(documentReference -> showToast("Usuario registrado correctamente"))
+                    .addOnFailureListener(exception -> showToast(exception.getMessage()));
             startActivity(new Intent(EditarPerfil.this, Perfil.class));
         }
 
+    }
+
+    private void showToast(String message){
+        Toast.makeText(EditarPerfil.this, message, Toast.LENGTH_LONG).show();
     }
 
     private void cargarPerfil(){

@@ -10,12 +10,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.parchat.databinding.ActivityMatchBinding;
+import com.example.parchat.utilities.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -53,6 +57,7 @@ public class Match extends AppCompatActivity {
         solicitudes = new ArrayList<>();
         usuariosUsados = new TreeSet<>();
         createListeners();
+        getToken();
     }
 
     @Override
@@ -252,6 +257,23 @@ public class Match extends AppCompatActivity {
             binding.progressBar.setVisibility(View.GONE);
             binding.noHayPerfilesText.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void getToken(){
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
+    }
+
+    private void updateToken(String token){
+        String id = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        FirebaseFirestore databaseStorage  = FirebaseFirestore.getInstance();
+        DocumentReference documentReference =
+                databaseStorage.collection(Constants.KEY_COLLECTION_USER).document(
+                        id
+                );
+        documentReference.update(Constants.KEY_FCM_TOKEN, token)
+                .addOnFailureListener(e -> showToast("Unable to update token"));
+        dbRef = database.getReference("Users/" + id + "/token");
+        dbRef.setValue(token);
     }
 
     public void goToProfile(View v){

@@ -31,11 +31,12 @@ public class Constants {
     public static final String REMOTE_MSG_REGISTRATION_IDS = "registration_ids";
 
     public static HashMap<String, String> remoteMsgHeaders = null;
+
     public static HashMap<String, String> getRemoteMsgHeaders(){
         remoteMsgHeaders = new HashMap<>();
         remoteMsgHeaders.put(
                 REMOTE_MSG_AUTHORIZATION,
-                "key=AAAAqwnkpYk:APA91bF_IMpnNgEeA0jCMU-s2RNXYnRNzzAv9mnzW0s0Z3PEiZzkTbKUlM8crejtYFRiX-YVXlg4Wifdxuc-jVCfQ1ttFKvrd3f9K3ztd2d7EhZMGD_5oRj9dNZAiJEqsx7AzvGC8seg"
+                "key=AAAAG8UlDl8:APA91bEPwPaawbrjkWX3BYdAly2A0HlHmHKS5LuPxJAOy74AunU7jm416F58RtQNDdHKjVF_EM47tMHsnRlM73NqkOpTUvu5mOeF8FhDWbGyrSRgG1fugkshCb5prh96iAcgFbMQ_AKL"
         );
         remoteMsgHeaders.put(
                 REMOTE_MSG_CONTENT_TYPE,
