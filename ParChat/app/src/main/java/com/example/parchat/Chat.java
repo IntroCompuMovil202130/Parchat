@@ -1,25 +1,33 @@
 package com.example.parchat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.parchat.databinding.ActivityChatBinding;
 import com.example.parchat.utilities.Constants;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Chat extends AppCompatActivity {
@@ -30,8 +38,9 @@ public class Chat extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private FirebaseFirestore database;
     private FirebaseAuth auth;
-    private String conversionId = null;
+    //private String conversionId = null;
     private Boolean isReceiverAvailable = false;
+    private Usuario currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +48,8 @@ public class Chat extends AppCompatActivity {
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        receiverUser = (Usuario) getIntent().getSerializableExtra("user");
-        auth = FirebaseAuth.getInstance();
-
-        binding.nombreChat.setText(receiverUser.nombre);
-
         setListeners();
+        init();
     }
 
     private void setListeners(){
@@ -53,28 +58,53 @@ public class Chat extends AppCompatActivity {
         binding.imageCall.setOnClickListener(v -> startActivity(new Intent(this, Camara.class)));
     }
 
+    private void init(){
+        database = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        String id = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        loadReceiverDetail();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/" + id);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                currentUser = snapshot.getValue(Usuario.class);
+
+                chatMessages = new ArrayList<>();
+                chatAdapter = new ChatAdapter(
+                        chatMessages,
+                        currentUser.id
+                );
+                binding.chatRecyclerView.setAdapter(chatAdapter);
+                listenMessages();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                showToast("No se pudo leer al usuario actual");
+            }
+        });
+
+    }
+
     private void sendMessage(){
         HashMap<String, Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID, Objects.requireNonNull(auth.getCurrentUser()).getUid());
-        /*message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-        message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+        message.put(Constants.KEY_MESSAGE, binding.editTextChat.getText().toString());
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
-        if(conversionId != null){
-            updateConversion(binding.inputMessage.getText().toString());
+        /*if(conversionId != null){
+            updateConversion(binding.editTextChat.getText().toString());
         }else{
             HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-            conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
-            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+            conversion.put(Constants.KEY_SENDER_ID, currentUser.id);
+            conversion.put(Constants.KEY_SENDER_NAME, currentUser.nombre);
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
-            conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
-            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.nombre);
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
-        }
-        if(!isReceiverAvailable){
+        }*/
+        /*if(!isReceiverAvailable){
             try{
                 JSONArray tokens = new JSONArray();
                 tokens.put(receiverUser.token);
@@ -93,7 +123,101 @@ public class Chat extends AppCompatActivity {
             }catch (Exception e){
                 showToast(e.getMessage());
             }
+        }*/
+        binding.editTextChat.setText(null);
+    }
+
+    private void loadReceiverDetail(){
+        receiverUser = (Usuario) getIntent().getSerializableExtra("user");
+        binding.nombreChat.setText(receiverUser.nombre);
+    }
+
+    /*private void updateConversion(String message){
+        DocumentReference documentReference =
+                database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
+        documentReference.update(
+                Constants.KEY_LAST_MESSAGE, message,
+                Constants.KEY_TIMESTAMP, new Date()
+        );
+    }*/
+
+    private void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private void listenMessages(){
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+                .whereEqualTo(Constants.KEY_SENDER_ID, currentUser.id)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
+                .addSnapshotListener(eventListener);
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, currentUser.id)
+                .addSnapshotListener(eventListener);
+    }
+
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if(error != null){
+            return;
         }
-        binding.inputMessage.setText(null);*/
+        if (value != null) {
+            int count = chatMessages.size();
+            for(DocumentChange documentChange: value.getDocumentChanges()){
+                if(documentChange.getType() == DocumentChange.Type.ADDED){
+                    MensajeChat chatMessage = new MensajeChat();
+                    chatMessage.emisorId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                    chatMessage.receptorId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                    chatMessage.mensaje = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
+                    chatMessage.dateTime = getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
+                    chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    chatMessages.add(chatMessage);
+                }
+            }
+            Collections.sort(chatMessages, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
+            if(count == 0){
+                chatAdapter.notifyDataSetChanged();
+            }else {
+                chatAdapter.notifyItemRangeInserted(chatMessages.size(), chatMessages.size());
+                binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size() - 1);
+            }
+            binding.chatRecyclerView.setVisibility(View.VISIBLE);
+        }
+        binding.progressBar.setVisibility(View.GONE);
+        /*if(conversionId == null){
+            checkForConversion();
+        }*/
+    };
+
+    private String getReadableDateTime(Date date){
+        return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listenAvailabilityOfReceiver();
+    }
+
+    private void listenAvailabilityOfReceiver(){
+        database.collection(Constants.KEY_COLLECTION_USER).document(
+                receiverUser.id
+        ).addSnapshotListener(Chat.this, (value, error) -> {
+            if(error != null){
+                return;
+            }if(value != null){
+                if(value.getLong(Constants.KEY_AVAILABILITY) != null){
+                    int availability = Objects.requireNonNull(
+                            value.getLong(Constants.KEY_AVAILABILITY)
+                    ).intValue();
+                    isReceiverAvailable = availability == 1;
+                }
+                receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
+                /*if(receiverUser.image == null){
+                    receiverUser.image = value.getString(Constants.KEY_IMAGE);
+                    chatAdapter.setReceiverProfileImage(getBitmapFromEncodedString(receiverUser.image));
+                    chatAdapter.notifyItemRangeChanged(0, chatMessages.size());
+                }*/
+            }
+        });
     }
 }

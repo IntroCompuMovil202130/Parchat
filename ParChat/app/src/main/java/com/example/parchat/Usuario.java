@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-    public String id, nombre,  desc, edad, ciudad, facebook, instagram, tiktok, twitter, genero, interes, perfil;
+    public String id, nombre,  desc, edad, ciudad, facebook, instagram, tiktok, twitter, genero, interes, perfil, token;
     public Uri foto;
 
     public Usuario(){}
