@@ -19,7 +19,9 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,11 +84,14 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
     private TextView busqueda;
     private TextView nombreEvento;
     private TextView fecha;
+    private ImageButton miPosicion;
     private Evento ev;
     private double latitud;
     private double longitud;
     private boolean otroUsuario;
-    private String otroUId;
+    private boolean presionado;
+    private boolean presionadoEvento;
+    private boolean presionadoPart;
 
     private GoogleMap mMap;
     private ActivityDiaEventoBinding binding;
@@ -115,6 +120,9 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
         latitud = 0;
         longitud = 0;
         otroUsuario = false;
+        presionado = false;
+        presionadoEvento = false;
+        presionadoPart = false;
         binding = ActivityDiaEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -126,7 +134,7 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
         busqueda = findViewById(R.id.barraBuscar);
         nombreEvento = findViewById(R.id.nEvento);
         fecha = findViewById(R.id.fecha);
-
+        miPosicion = findViewById(R.id.miUbEventoHoy);
         ev = new Evento();
         participantes = new ArrayList<LatLng>();
         mLocationCallback = createLocationCallBack();
@@ -183,9 +191,6 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
         nombreEvento.setText(ev.nombreEvento);
         fecha.setText(ev.fecha);
         otroUsuario = extras.getBoolean("oUsuario");
-        if(otroUsuario){
-            otroUId = extras.getString("oUsuId");
-        }
 
     }
 
@@ -202,7 +207,7 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
 
     private LocationRequest createLocationRequest() {
         return LocationRequest.create()
-                .setInterval(6000)
+                .setInterval(5000)
                 .setFastestInterval(4000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
@@ -221,11 +226,42 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
                     }
                     LatLng miU = new LatLng(latitud,longitud);
                     miUbicacion = mMap.addMarker(new MarkerOptions().position(miU).title("mi ubicacion"));
+                    if(presionado){
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
+                        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+                    }
                     pedirJSON();
                     actPosicion();
                 }
             }
         };
+    }
+
+    public void irMiUbicacionH(View v){
+        if(!presionado){
+            presionado = true;
+            binding.miUbEventoHoy.setBackgroundResource(R.drawable.btnubicacionp);
+        }
+        else{
+            presionado = false;
+            binding.miUbEventoHoy.setBackgroundResource(R.drawable.ubicacion);
+        }
+    }
+
+    public void irUbicacionEvento(View v){
+            mMap.moveCamera(CameraUpdateFactory.newLatLng( busquedaMarker.getPosition()));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
+    public void irUbicacionParticipante(View v){
+        if(!presionadoPart){
+            presionadoPart = true;
+            binding.ubParticipante.setBackgroundResource(R.drawable.btnubicacionp);
+        }
+        else{
+            presionadoPart = false;
+            binding.ubParticipante.setBackgroundResource(R.drawable.ubicacion);
+        }
     }
 
     private void actPosicion(){
@@ -257,14 +293,18 @@ public class DiaEvento extends FragmentActivity implements OnMapReadyCallback {
                 participantes.clear();
                 for (Map.Entry<String,Posicion> entry : evActual.participantes.entrySet()){
                     if(!entry.getKey().equals(miId)){
-                        LatLng partPos = new LatLng(entry.getValue().latitud,entry.getValue().longitud);
+
                         if(partUbicacion != null){
                             partUbicacion.remove();
                         }
+                        LatLng partPos = new LatLng(entry.getValue().latitud,entry.getValue().longitud);
                         partUbicacion = mMap.addMarker(new MarkerOptions()
                                 .position(partPos).title("participante")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
+                        if(presionadoPart){
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(partPos));
+                            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+                        }
                     }
                 }
 
