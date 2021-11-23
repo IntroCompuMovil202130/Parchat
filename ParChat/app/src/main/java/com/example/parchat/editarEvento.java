@@ -81,6 +81,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class editarEvento extends FragmentActivity implements OnMapReadyCallback {
@@ -110,6 +111,7 @@ public class editarEvento extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
+    private boolean presionado;
 
     //sensor de luminosidad
     private SensorManager sensorManager;
@@ -123,45 +125,36 @@ public class editarEvento extends FragmentActivity implements OnMapReadyCallback
     FirebaseAuth mAuth;
     DatabaseReference myRef;
     private ProgressDialog progressDialog;
+    private FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = createLocationRequest();
-
         latitud = 0;
         longitud = 0;
-
+        presionado = false;
         binding = ActivityEditarEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        ev = new Evento();
+
         mAuth = FirebaseAuth.getInstance();
         myRef = FirebaseDatabase.getInstance().getReference();
 
         busqueda = findViewById(R.id.barraBuscar);
         nombreEvento = findViewById(R.id.nEvento);
-        fecha = findViewById(R.id.fecha);
         confirmar = findViewById(R.id.conf);
-
+        fecha = findViewById(R.id.fecha);
+        db = FirebaseDatabase.getInstance();
         revisarGPS();
-        solicitarPermisos(this, permisosMapa, "acceso a su GPS");
+        solicitarPermisos(this, permisosMapa, "Acceso a GPS");
 
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                if(locationResult.getLastLocation() != null){
-                    Location locacion = locationResult.getLastLocation();
-                    latitud = locacion.getLatitude();
-                    longitud = locacion.getLongitude();
-                }
-
-            }
-        };
+        mLocationCallback = createLocationCallBack();
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = crearListener();
@@ -237,34 +230,70 @@ public class editarEvento extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
-        if(latitud != 0 && longitud != 0){
-            LatLng posicion = new LatLng(latitud,longitud);
+
+        colocarPuntoReunion();
+    }
+
+    public void irMiUbicacion(View v){
+        if(!presionado){
+            presionado = true;
+            binding.imageButton9.setBackgroundResource(R.drawable.btnubicacionp);
             if(miUbicacion != null){
                 miUbicacion.remove();
             }
-            miUbicacion = mMap.addMarker(new MarkerOptions().position(posicion).title("mi ubicacion"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
+            LatLng miU = new LatLng(latitud,longitud);
+            miUbicacion = mMap.addMarker(new MarkerOptions().position(miU).title("mi ubicacion"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
             mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
         }
-        LatLng posicion = new LatLng(ev.getLatitud(),ev.getLongitud());
-        busquedaMarker = mMap.addMarker(new MarkerOptions()
-                .position(posicion).title(ev.getLugar())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-        if(miUbicacion != null){
-            pedirJSON();
+        else{
+            presionado = false;
+            binding.imageButton9.setBackgroundResource(R.drawable.ubicacion);
         }
-
     }
+
+    public void colocarPuntoReunion(){
+        LatLng posicion = new LatLng(ev.latitud,ev.longitud);
+        busquedaMarker = mMap.addMarker(new MarkerOptions()
+                .position(posicion).title(ev.lugar)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
+    private LocationCallback createLocationCallBack() {
+        return new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                if(locationResult.getLastLocation() != null){
+
+                    Location locacion = locationResult.getLastLocation();
+                    latitud = locacion.getLatitude();
+                    longitud = locacion.getLongitude();
+
+                    if(presionado){
+                        if(miUbicacion != null){
+                            miUbicacion.remove();
+                        }
+                        LatLng miU = new LatLng(latitud,longitud);
+                        miUbicacion = mMap.addMarker(new MarkerOptions().position(miU).title("mi ubicacion"));
+                        //mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
+                        if(busquedaMarker != null){
+                            pedirJSON();
+                        }
+                    }
+                }
+            }
+        };
+    }
+
     //----------Transformar los datos del intent a tipo evento------------
     private void inicializarEdits(){
-
-        ev.convertirString(getIntent().getStringExtra("eventoM"));
-        busqueda.setText(ev.getLugar());
-        nombreEvento.setText(ev.getNombreEvento());
-        fecha.setText(ev.getFecha());
-
-
+        ev = (Evento) getIntent().getSerializableExtra("eventoM");
+        busqueda.setText(ev.lugar);
+        nombreEvento.setText(ev.nombreEvento);
+        fecha.setText(ev.fecha);
     }
 
     //------mostrar la ubicacion del usuario al presionar el boton--------
@@ -335,20 +364,29 @@ public class editarEvento extends FragmentActivity implements OnMapReadyCallback
         else{lugar = true;}
         if(verificarFecha(fecha.getText().toString())){
             if(buscar && nombre && fechac && lugar){
-                Evento nEvento = new Evento();
-                nEvento.setNombreEvento(nombreEvento.getText().toString());
-                nEvento.setLugar(busqueda.getText().toString());
-                nEvento.setFecha(fecha.getText().toString());
-                nEvento.setLatitud(busquedaMarker.getPosition().latitude);
-                nEvento.setLongitud(busquedaMarker.getPosition().longitude);
-
-                progressDialog.setMessage("Publicando evento...");
-                progressDialog.show();
-
                 String usuarioKey = mAuth.getCurrentUser().getUid();
-                myRef.child("Users").child(usuarioKey).child("eventos").child(ev.getId()).setValue(nEvento);
-                Toast.makeText(editarEvento.this, "Evento publicado", Toast.LENGTH_SHORT).show();
-                finish();
+                Posicion nPos = new Posicion();
+                Evento nEvento = new Evento();
+                HashMap<String, Object> nuevoEvento = new HashMap<>();
+                String idEvento = ev.id;
+
+                nEvento.id = idEvento;
+                nEvento.idorganizador = usuarioKey;
+                nEvento.nombreEvento = nombreEvento.getText().toString();
+                nEvento.lugar = busqueda.getText().toString();
+                nEvento.fecha = fecha.getText().toString();
+                nEvento.latitud = busquedaMarker.getPosition().latitude;
+                nEvento.longitud = busquedaMarker.getPosition().longitude;
+                nPos.latitud = miUbicacion.getPosition().latitude;
+                nPos.longitud = miUbicacion.getPosition().longitude;
+
+                nEvento.participantes.put(usuarioKey,nPos);
+
+                myRef = db.getReference("eventos/" + usuarioKey);
+                nuevoEvento.put(idEvento,nEvento);
+                myRef.updateChildren(nuevoEvento);
+
+                startActivity(new Intent(this,Perfil.class));
             }
             else{
                 Toast.makeText(editarEvento.this, "indique los datos del evento", Toast.LENGTH_SHORT).show();

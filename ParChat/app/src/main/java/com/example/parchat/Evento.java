@@ -1,76 +1,51 @@
 package com.example.parchat;
 
-public class Evento {
-    private String id;
-    private String nombreEvento;
-    private String lugar;
-    private String fecha;
-    private double latitud;
-    private double longitud;
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class Evento implements Serializable {
+
+    public String id;
+    public String idorganizador;
+    public boolean organizador;
+    public String nombreEvento;
+    public String lugar;
+    public String fecha;
+    public double latitud;
+    public double longitud;
+    public HashMap<String,Posicion> participantes;
 
     public Evento() {
+        participantes = new HashMap<String,Posicion>();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public Evento(String id,String nombreEvento, String lugar,
+                  String fecha, double latitud, double longitud,boolean organizador,String idOrganizador) {
         this.id = id;
-    }
-
-    public String getNombreEvento() {
-        return nombreEvento;
-    }
-
-    public void setNombreEvento(String nombreEvento) {
+        this.idorganizador = idOrganizador;
         this.nombreEvento = nombreEvento;
-    }
-
-    public String getLugar() {
-        return lugar;
-    }
-
-    public void setLugar(String lugar) {
         this.lugar = lugar;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
-    public double getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(double latitud) {
         this.latitud = latitud;
-    }
-
-    public double getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(double longitud) {
         this.longitud = longitud;
+        this.participantes = new HashMap<String,Posicion>();
+        this.organizador = organizador;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return id +"__"+ nombreEvento +"__"+lugar+"__"+fecha+"__"+latitud+"__"+longitud;
-    }
-
-    public void convertirString(String eventoString){
-        String partes[] = eventoString.split("__");
-        this.id = partes[0];
-        this.nombreEvento = partes[1];
-        this.lugar = partes[2];
-        this.fecha = partes[3];
-        this.latitud = Double.valueOf(partes[4]);
-        this.longitud = Double.valueOf(partes[5]);
+        return "Evento{" +
+                "id='" + id + '\'' +
+                ", organizador=" + organizador +
+                ", nombreEvento='" + nombreEvento + '\'' +
+                ", lugar='" + lugar + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", latitud=" + latitud +
+                ", longitud=" + longitud +
+                ", participantes=" + participantes +
+                '}';
     }
 }

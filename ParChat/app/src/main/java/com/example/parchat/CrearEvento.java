@@ -61,6 +61,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -79,6 +80,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class CrearEvento extends FragmentActivity implements OnMapReadyCallback {
@@ -97,6 +99,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     //mapa y localizacion
+    private boolean presionado;
     private GoogleMap mMap;
     private ActivityCrearEventoBinding binding;
     private Marker miUbicacion;
@@ -106,6 +109,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     private LocationRequest locationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
+    private Polyline polyRuta;
 
     //sensor de luminosidad
     private SensorManager sensorManager;
@@ -119,6 +123,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
     FirebaseAuth mAuth;
     DatabaseReference myRef;
     private ProgressDialog progressDialog;
+    private FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +133,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         locationRequest = createLocationRequest();
         latitud = 0;
         longitud = 0;
-
+        presionado = false;
         binding = ActivityCrearEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -143,21 +148,11 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         nombreEvento = findViewById(R.id.nEvento);
         publicar = findViewById(R.id.conf);
         fecha = findViewById(R.id.fecha);
-
+        db = FirebaseDatabase.getInstance();
         revisarGPS();
         solicitarPermisos(this, permisosMapa, "Acceso a GPS");
 
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                if(locationResult.getLastLocation() != null){
-                    Location locacion = locationResult.getLastLocation();
-                    latitud = locacion.getLatitude();
-                    longitud = locacion.getLongitude();
-                }
-
-            }
-        };
+        mLocationCallback = createLocationCallBack();
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = crearListener();
@@ -165,6 +160,8 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         mgeocoder = new Geocoder(getBaseContext());
         progressDialog = new ProgressDialog(this);
     }
+
+
 
     @Override
     protected void onResume() {
@@ -236,7 +233,9 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
 
     //------mostrar la ubicacion del usuario al presionar el boton--------
     public void irMiUbicacion(View v){
-        if(latitud != 0 && longitud != 0){
+        if(!presionado){
+            presionado = true;
+            binding.imageButton9.setBackgroundResource(R.drawable.btnubicacionp);
             if(miUbicacion != null){
                 miUbicacion.remove();
             }
@@ -244,14 +243,44 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
             miUbicacion = mMap.addMarker(new MarkerOptions().position(miU).title("mi ubicacion"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
             mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
         }
-        pedirJSON();
+        else{
+            presionado = false;
+            binding.imageButton9.setBackgroundResource(R.drawable.ubicacion);
+        }
+    }
+
+    private LocationCallback createLocationCallBack() {
+        return new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                if(locationResult.getLastLocation() != null){
+
+                    Location locacion = locationResult.getLastLocation();
+                    latitud = locacion.getLatitude();
+                    longitud = locacion.getLongitude();
+
+                    if(presionado){
+                        if(miUbicacion != null){
+                            miUbicacion.remove();
+                        }
+                        LatLng miU = new LatLng(latitud,longitud);
+                        miUbicacion = mMap.addMarker(new MarkerOptions().position(miU).title("mi ubicacion"));
+                        //mMap.moveCamera(CameraUpdateFactory.newLatLng(miU));
+                        if(busquedaMarker != null){
+                            pedirJSON();
+                        }
+                    }
+                }
+            }
+        };
     }
 
     private LocationRequest createLocationRequest() {
         return LocationRequest.create()
-                .setInterval(10000)
-                .setFastestInterval(5000)
+                .setInterval(6000)
+                .setFastestInterval(4000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
     //-------------------fechas------------------------------------------------
@@ -314,20 +343,33 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         else{lugar = true;}
         if(verificarFecha(fecha.getText().toString())){
             if(buscar && nombre && fechac && lugar){
-                Evento nEvento = new Evento();
-                nEvento.setNombreEvento(nombreEvento.getText().toString());
-                nEvento.setLugar(busqueda.getText().toString());
-                nEvento.setFecha(fecha.getText().toString());
-                nEvento.setLatitud(busquedaMarker.getPosition().latitude);
-                nEvento.setLongitud(busquedaMarker.getPosition().longitude);
-
-                progressDialog.setMessage("Publicando evento...");
-                progressDialog.show();
-
                 String usuarioKey = mAuth.getCurrentUser().getUid();
-                myRef.child("Users").child(usuarioKey).child("eventos").child(myRef.push().getKey()).setValue(nEvento);
-                Toast.makeText(CrearEvento.this, "Evento publicado", Toast.LENGTH_SHORT).show();
-                finish();
+                Posicion nPos = new Posicion();
+                Evento nEvento = new Evento();
+                HashMap<String, Object> nuevoEvento = new HashMap<>();
+                String idEvento = myRef.push().getKey();
+
+                nEvento.id = idEvento;
+                nEvento.organizador = true;
+                nEvento.idorganizador = usuarioKey;
+                nEvento.nombreEvento = nombreEvento.getText().toString();
+                nEvento.lugar = busqueda.getText().toString();
+                nEvento.fecha = fecha.getText().toString();
+                nEvento.latitud = busquedaMarker.getPosition().latitude;
+                nEvento.longitud = busquedaMarker.getPosition().longitude;
+                nPos.latitud = miUbicacion.getPosition().latitude;
+                nPos.longitud = miUbicacion.getPosition().longitude;
+
+                nEvento.participantes.put(usuarioKey,nPos);
+
+                //progressDialog.setMessage("Publicando evento...");
+                //progressDialog.show();
+
+                myRef = db.getReference("eventos/" + usuarioKey);
+                nuevoEvento.put(idEvento,nEvento);
+                myRef.updateChildren(nuevoEvento);
+
+                startActivity(new Intent(this,Perfil.class));
             }
             else{
                 Toast.makeText(CrearEvento.this, "indique los datos del evento", Toast.LENGTH_SHORT).show();
@@ -475,7 +517,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
         JSONArray jroutes;
         JSONArray jlegs;
         JSONArray jsteps;
-
+        Log.i("actLocalizacion", "trazando ruta");
         try {
             jroutes = ruta.getJSONArray("routes");
             for(int i = 0; i < jroutes.length();i++){
@@ -485,6 +527,9 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
                     for(int k = 0; k < jsteps.length();k++){
                         String polyline = "" + ((JSONObject)((JSONObject)jsteps.get(k)).get("polyline")).get("points");
                         List<LatLng> lista = PolyUtil.decode(polyline);
+                        if(polyRuta != null){
+                            polyRuta.remove();
+                        }
                         mMap.addPolyline(new PolylineOptions().addAll(lista).color(Color.CYAN).width(6));
                     }
                 }
