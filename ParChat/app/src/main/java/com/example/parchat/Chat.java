@@ -100,12 +100,15 @@ public class Chat extends BaseActivity {
         message.put(Constants.KEY_MESSAGE, binding.editTextChat.getText().toString());
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
-        binding.editTextChat.setText(null);
         if(!isReceiverAvailable){
             try{
                 JSONArray tokens = new JSONArray();
                 tokens.put(receiverUser.token);
-                showToast("1: " + receiverUser.token);
+                showToast("2: " + receiverUser.token);
+                showToast("3: " + currentUser.token);
+                showToast("4: " + currentUser.id);
+                showToast("5: " + currentUser.nombre);
+                showToast("5: " + binding.editTextChat.getText().toString());
 
                 JSONObject data = new JSONObject();
                 data.put(Constants.KEY_USER_ID, currentUser.id);
@@ -122,6 +125,7 @@ public class Chat extends BaseActivity {
                 showToast(e.getMessage());
             }
         }
+        binding.editTextChat.setText(null);
     }
 
     private void loadReceiverDetail(){

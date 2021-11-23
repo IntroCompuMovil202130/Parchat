@@ -18,6 +18,7 @@ import com.example.parchat.utilities.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class MessagingService extends FirebaseMessagingService {
@@ -29,7 +30,6 @@ public class MessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        Log.d("FCM", "Message: " + remoteMessage.getNotification().getBody());
         super.onMessageReceived(remoteMessage);
         Usuario user = new Usuario();
         user.id = remoteMessage.getData().get(Constants.KEY_USER_ID);
