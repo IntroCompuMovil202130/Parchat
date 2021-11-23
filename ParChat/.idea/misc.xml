@@ -30,6 +30,7 @@
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_chat.xml" value="0.22" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_chats.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_crear_evento.xml" value="0.2" />
+        <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_dia_evento.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_editar_evento.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_editar_perfil.xml" value="0.25" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -46,20 +47,10 @@
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2203125" />
         <entry key="..\:/Users/aulasingenieria/Documents/Parchat/Parchat/ParChat/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2203125" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/drawable/btnubicacionp.xml" value="0.2203125" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/drawable/ubicacion.xml" value="0.2203125" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_chat.xml" value="0.19701086956521738" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_chats.xml" value="0.19701086956521738" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_crear_evento.xml" value="0.1480978260869565" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_dia_evento.xml" value="0.25" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_editar_evento.xml" value="0.14583333333333334" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_match.xml" value="0.1" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_opciones_evento.xml" value="0.25" />
-        <entry key="..\:/Users/julia/Documents/U/CompuMovil/Parchat/ParChat/app/src/main/res/layout/activity_perfil.xml" value="0.22" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

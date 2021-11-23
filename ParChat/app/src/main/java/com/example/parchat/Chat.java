@@ -104,11 +104,11 @@ public class Chat extends BaseActivity {
             try{
                 JSONArray tokens = new JSONArray();
                 tokens.put(receiverUser.token);
-                showToast("2: " + receiverUser.token);
+                /*showToast("2: " + receiverUser.token);
                 showToast("3: " + currentUser.token);
                 showToast("4: " + currentUser.id);
                 showToast("5: " + currentUser.nombre);
-                showToast("5: " + binding.editTextChat.getText().toString());
+                showToast("5: " + binding.editTextChat.getText().toString());*/
 
                 JSONObject data = new JSONObject();
                 data.put(Constants.KEY_USER_ID, currentUser.id);
@@ -201,7 +201,7 @@ public class Chat extends BaseActivity {
                     isReceiverAvailable = availability == 1;
                 }
                 receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
-                showToast("1: " + receiverUser.token);
+                //showToast("1: " + receiverUser.token);
             }
         });
     }
@@ -221,13 +221,13 @@ public class Chat extends BaseActivity {
                             if(responseJson.getInt("failure") == 1){
                                 JSONObject error = (JSONObject) results.get(0);
                                 showToast(error.getString("error"));
-                                return;
+                                //return;
                             }
                         }
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
-                    showToast("Notification sent successfully");
+                    //showToast("Notification sent successfully");
                 }else {
                     showToast("Error: " + response.code());
                 }
