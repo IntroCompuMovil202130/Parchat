@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class Evento implements Serializable {
 
     public String id;
+    public String idorganizador;
     public boolean organizador;
     public String nombreEvento;
     public String lugar;
@@ -20,8 +21,10 @@ public class Evento implements Serializable {
         participantes = new HashMap<String,Posicion>();
     }
 
-    public Evento(String id,String nombreEvento, String lugar, String fecha, double latitud, double longitud,boolean organizador) {
+    public Evento(String id,String nombreEvento, String lugar,
+                  String fecha, double latitud, double longitud,boolean organizador,String idOrganizador) {
         this.id = id;
+        this.idorganizador = idOrganizador;
         this.nombreEvento = nombreEvento;
         this.lugar = lugar;
         this.fecha = fecha;

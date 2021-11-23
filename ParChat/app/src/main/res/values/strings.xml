@@ -57,10 +57,12 @@
     <string name="rechazar">Rechazar</string>
     <string name="imagen_usuario">Imagen Usuario</string>
     <string name="no_hay_perfiles">No hay mas perfiles disponibles</string>
+    <string name="eventosHoy">Eventos de hoy</string>
     <string-array name="generos">
         <item>Seleccione</item>
         <item>Hombre</item>
         <item>Mujer</item>
         <item>Otro</item>
     </string-array>
+    <string name="title_activity_dia_evento">DiaEvento</string>
 </resources>

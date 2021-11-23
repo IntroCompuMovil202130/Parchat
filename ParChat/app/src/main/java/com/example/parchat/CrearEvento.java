@@ -351,6 +351,7 @@ public class CrearEvento extends FragmentActivity implements OnMapReadyCallback 
 
                 nEvento.id = idEvento;
                 nEvento.organizador = true;
+                nEvento.idorganizador = usuarioKey;
                 nEvento.nombreEvento = nombreEvento.getText().toString();
                 nEvento.lugar = busqueda.getText().toString();
                 nEvento.fecha = fecha.getText().toString();

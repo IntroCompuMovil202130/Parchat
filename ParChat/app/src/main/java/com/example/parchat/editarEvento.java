@@ -371,6 +371,7 @@ public class editarEvento extends FragmentActivity implements OnMapReadyCallback
                 String idEvento = ev.id;
 
                 nEvento.id = idEvento;
+                nEvento.idorganizador = usuarioKey;
                 nEvento.nombreEvento = nombreEvento.getText().toString();
                 nEvento.lugar = busqueda.getText().toString();
                 nEvento.fecha = fecha.getText().toString();

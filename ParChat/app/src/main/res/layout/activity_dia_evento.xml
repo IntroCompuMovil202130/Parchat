@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCEBD9"
+    tools:context=".opcionesEvento">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/barraBuscar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
+        android:hint="@string/lugar"
+        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_margin="15dp"/>
+
+    <TextView
+        android:id="@+id/nEvento"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
+        android:hint="@string/nombreEvento"
+        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="75dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
+
+    <TextView
+        android:id="@+id/fecha"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/borderstyle"
+        android:backgroundTint="#B3FFFFFF"
+        android:hint="@string/fecha"
+        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="135dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
+
+
+</FrameLayout>

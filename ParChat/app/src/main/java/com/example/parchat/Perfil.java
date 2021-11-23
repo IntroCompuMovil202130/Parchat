@@ -28,7 +28,10 @@ import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class Perfil extends AppCompatActivity {
@@ -38,6 +41,10 @@ public class Perfil extends AppCompatActivity {
     private ListView listaEventos;
     private ArrayList<String> eventos;
     private ArrayAdapter<String> adaptador;
+
+    private ListView listaEventosHoy;
+    private ArrayList<String> eventosHoy;
+    private ArrayAdapter<String> adaptadorHoy;
     private boolean menu = true;
     private boolean otroU = false;
     private boolean amigos = false;
@@ -63,6 +70,10 @@ public class Perfil extends AppCompatActivity {
         allEventos = new ArrayList<>();
         listaEventos.setAdapter(adaptador);
 
+        eventosHoy = new ArrayList<>();
+        adaptadorHoy = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,eventosHoy);
+        listaEventosHoy.setAdapter(adaptadorHoy);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
         createListeners();
@@ -76,6 +87,7 @@ public class Perfil extends AppCompatActivity {
 
     public void inflarVariables(){
         listaEventos = findViewById(R.id.listaEventos);
+        listaEventosHoy = findViewById(R.id.listEventoHoy);
         nombre = findViewById(R.id.textView4);
         desc = findViewById(R.id.textView9);
         edad = findViewById(R.id.textView12);
@@ -133,18 +145,16 @@ public class Perfil extends AppCompatActivity {
 
     private void verificarAmistad(String uid, String otroId, String nombreOtro) {
         myRef = db.getReference("chats/" + uid);
-        myRef.orderByChild(otroId).equalTo(nombreOtro).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Usuario res = snapshot.getValue(Usuario.class);
-                if(res != null){
-                    amigos = true;
-                }
-                else{
-                    Log.i("amigos", "No son amigos");
+                for(DataSnapshot singleShot: snapshot.getChildren()){
+                    if(singleShot.getKey().equals(otroId)){
+                        Log.i("amigos", "son socios");
+                        amigos = true;
+                    }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -178,6 +188,34 @@ public class Perfil extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        listaEventosHoy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle extras = new Bundle();
+                Intent intent = new Intent(view.getContext(),DiaEvento.class);
+                String[] eventoHoy = listaEventosHoy.getItemAtPosition(i).toString().split(" ");
+                for (Evento evento: allEventos) {
+                    if(eventoHoy[0].equals(evento.nombreEvento)){
+                        if(evento.organizador){
+                            Log.i("org", "onItemClick: " + "soy organizador");
+                            extras.putBoolean("oUsuario",false);
+                            extras.putSerializable("eventoH",evento);
+                            intent.putExtras(extras);
+                            startActivity(intent);
+                        }
+                        else{
+                            Log.i("org", "onItemClick: " + "me uni");
+                            extras.putBoolean("oUsuario",true);
+                            extras.putSerializable("eventoH",evento);
+                            extras.putString("oUsuId",evento.idorganizador);
+                            intent.putExtras(extras);
+                            startActivity(intent);
+                        }
+
+                    }
+                }
+            }
+        });
     }
 
     public void goToMatchs(View v){
@@ -202,6 +240,7 @@ public class Perfil extends AppCompatActivity {
                     for(DataSnapshot singleShot: snapshot.getChildren()){
 
                         String idEvento = singleShot.child("id").getValue(String.class);
+                        String idOrg = singleShot.child("idorganizador").getValue(String.class);
                         String fechaEv = singleShot.child("fecha").getValue(String.class);
                         String nombre = singleShot.child("nombreEvento").getValue(String.class);
                         String lugar = singleShot.child("lugar").getValue(String.class);
@@ -209,18 +248,64 @@ public class Perfil extends AppCompatActivity {
                         double longitud = singleShot.child("longitud").getValue(Double.class);
                         boolean organizador = singleShot.child("organizador").getValue(Boolean.class);
 
-                        Evento evento = new Evento(idEvento,nombre,lugar,fechaEv,latitud,longitud,organizador);
+                        Evento evento = new Evento(idEvento,nombre,lugar,fechaEv,latitud,longitud,organizador,idOrg);
                         eventos.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
                         adaptador.notifyDataSetChanged();
                         allEventos.add(evento);
                     }
                 }
+               if(!otroU){
+                   for(DataSnapshot singleShot: snapshot.getChildren()){
+
+                       String idEvento = singleShot.child("id").getValue(String.class);
+                       String idOrg = singleShot.child("idorganizador").getValue(String.class);
+                       String fechaEv = singleShot.child("fecha").getValue(String.class);
+                       String nombre = singleShot.child("nombreEvento").getValue(String.class);
+                       String lugar = singleShot.child("lugar").getValue(String.class);
+                       double latitud = singleShot.child("latitud").getValue(Double.class);
+                       double longitud = singleShot.child("longitud").getValue(Double.class);
+                       boolean organizador = singleShot.child("organizador").getValue(Boolean.class);
+
+                       Evento evento = new Evento(idEvento,nombre,lugar,fechaEv,latitud,longitud,organizador,idOrg);
+                       eventos.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
+                       adaptador.notifyDataSetChanged();
+                       allEventos.add(evento);
+                   }
+                   Log.i("hola?", "comparando fechas");
+                   mostrarEventoDeHoy();
+               }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+    }
+
+    private void mostrarEventoDeHoy() {
+
+        Date fechaAct = new Date();
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaEventoDate = null;
+
+        for (Evento evento: allEventos) {
+            String fecha = evento.fecha;
+
+            try {
+                fechaEventoDate = date.parse(fecha);
+                if((fechaAct.getDay() == fechaEventoDate.getDay()) &
+                        (fechaAct.getMonth() == fechaEventoDate.getMonth()) &
+                                (fechaAct.getYear() == fechaEventoDate.getYear())){
+                    Log.i("evHoy", "el evento es hoy: ");
+                    eventosHoy.add(evento.nombreEvento + " " + evento.lugar + " " + evento.fecha);
+                    adaptadorHoy.notifyDataSetChanged();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void createListeners(){
@@ -286,5 +371,4 @@ public class Perfil extends AppCompatActivity {
             }
         });
     }
-
 }
