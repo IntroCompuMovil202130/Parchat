@@ -104,10 +104,12 @@ public class Match extends AppCompatActivity {
             if(menu){
                 binding.editProfileOption.setVisibility(View.VISIBLE);
                 binding.signOutOption.setVisibility(View.VISIBLE);
+                binding.matchsOption.setVisibility(View.VISIBLE);
                 menu = false;
             }else{
                 binding.editProfileOption.setVisibility(View.GONE);
                 binding.signOutOption.setVisibility(View.GONE);
+                binding.matchsOption.setVisibility(View.GONE);
                 menu = true;
             }
         });
@@ -121,6 +123,11 @@ public class Match extends AppCompatActivity {
             auth.signOut();
             Intent intent = new Intent(Match.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
+
+        binding.matchsOption.setOnClickListener(v -> {
+            Intent intent = new Intent(Match.this, ListaMatchs.class);
             startActivity(intent);
         });
 
@@ -276,12 +283,12 @@ public class Match extends AppCompatActivity {
         dbRef.setValue(token);
     }
 
-    public void goToProfile(View v){
-        startActivity(new Intent(v.getContext(), Perfil.class));
-    }
-
     public void goToChats(View v){
         startActivity(new Intent(v.getContext(), Chats.class));
+    }
+
+    public void goToProfile(View v){
+        startActivity(new Intent(v.getContext(), Perfil.class));
     }
 
     public void goToCreateEvent(View v){

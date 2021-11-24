@@ -200,6 +200,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/matchsOption"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:visibility="gone"
+        android:text="@string/matchs"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileOption" />
+
+    <TextView
         android:id="@+id/signOutOption"
         android:layout_width="150dp"
         android:layout_height="50dp"
@@ -212,7 +227,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileOption" />
+        app:layout_constraintTop_toBottomOf="@+id/matchsOption" />
 
     <ProgressBar
         android:id="@+id/progressBar"

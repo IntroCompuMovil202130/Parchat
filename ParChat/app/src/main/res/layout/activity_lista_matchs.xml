@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Chats"
+    tools:context=".ListaMatchs"
     android:background="#FCEBD9">
 
     <FrameLayout
@@ -58,12 +58,12 @@
             android:textSize="40sp"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="@string/chats" />
+            android:text="@string/matchs" />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/chats"
+            android:id="@+id/lista"
             android:layout_marginTop="10dp"/>
     </LinearLayout>
 
@@ -101,6 +101,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#FCBAC3"
+            android:onClick="goToChats"
             app:srcCompat="@drawable/ic_baseline_chat_24" />
 
         <ImageButton
