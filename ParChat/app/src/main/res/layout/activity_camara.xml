@@ -37,8 +37,9 @@
         android:id="@+id/imagen"
         android:layout_width="350dp"
         android:layout_height="350dp"
+        android:layout_marginTop="32dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_image_24"
+        android:src="@drawable/ic_call"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
@@ -52,7 +53,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagen">
+        app:layout_constraintTop_toBottomOf="@+id/imagen"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/galeria"
@@ -100,10 +102,31 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:backgroundTint="@null"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+
+    <FrameLayout
+        android:id="@+id/boton_colgar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/boton"
+        android:backgroundTint="#E6FF0000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagen">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_call_end"/>
+
+    </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/frameLayout"

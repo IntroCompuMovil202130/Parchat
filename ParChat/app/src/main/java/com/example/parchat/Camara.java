@@ -58,7 +58,7 @@ public class Camara extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-
+        binding.botonColgar.setOnClickListener(v -> onBackPressed());
 
         if (sensorProximity == null){
             finish();
@@ -74,7 +74,7 @@ public class Camara extends AppCompatActivity {
                 binding.aceptar.setVisibility(View.INVISIBLE);
                 binding.frameLayout.setVisibility(View.VISIBLE);
             }else{
-                binding.aceptar.setVisibility(View.VISIBLE);
+                //binding.aceptar.setVisibility(View.VISIBLE);
                 binding.frameLayout.setVisibility(View.GONE);
             }
         }
